@@ -1,0 +1,463 @@
+===incoming_list=====
+@extends('master')
+@section('title','Sale Project List')
+@section('link','Sale Project List')
+@section('content')
+
+
+<div class="row">
+    <div class="col-12">
+          <div class="card">
+          <div class="card-header">
+          <div class="row justify-content-between">
+              <label class="">Incoming Transaction List<span class="float-right">	<button type="button" data-toggle="modal" data-target="#add_incomes" class="btn btn-primary" onclick="hide_bank_acc()"><i class="fas fa-plus"></i> Add Income</button>
+                <a href="{{route('incoming_type')}}" class="btn btn-primary"> Incoming Type</a></span></label>
+
+          </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                            <thead class="bg-info text-white">
+                            <tr>
+                                <th>#</th>
+                                <th class="text-center">Account</th>
+                                <th class="text-center">Type</th>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">Amount</th>
+                                <th class="text-center">Remark</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1; ?>
+                            @foreach ($expense_tran as $trans)
+                            @if($trans->type_flag == 3)
+                            <tr>
+                            <td style="font-size:15px;" class="text-center">{{$i++}}</td>
+                            <td style="font-size:15px;" class="text-center">{{$trans->accounting->account_name}}-{{$trans->accounting->account_code}}</td>
+                            @if ($trans->type == 1)
+                            <td style="font-size:15px;" class="text-center">Debit</td>
+                            @endif
+                            @if ($trans->type == 2)
+                            <td style="font-size:15px;" class="text-center">Credit</td>
+                            @endif
+                            <td style="font-size:15px;" class="text-center">{{$trans->date}}</td>
+                            <td style="font-size:15px;" class="text-center">{{$trans->amount}}</td>
+                            <td style="font-size:15px;" class="text-center">{{$trans->remark}}</td>
+                            <td class="text-center"><a class="btn btn-primary btn-sm " data-toggle="collapse" href="#related{{$trans->id}}" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Related</a></td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+
+                                <td colspan="6">
+                                    <div class="collapse out container mr-5" id="related{{$trans->id}}">
+                                        <div class="row">
+                                            <?php $j=1 ?>
+                                            @foreach($bank_cash_tran as $transa)
+                                            @if($trans->related_transaction_id == $transa->id)
+                                            @if($transa->type_flag == 4)
+                                            <div class="col-md-2">
+                                                <label style="font-size:15px;" class="text-info">No</label>
+                                                <div style="font-size:15px;">{{$j++}}</div>
+
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label style="font-size:15px;" class="text-info">Account</label>
+
+                                                <div style="font-size:15px;">{{$transa->accounting->account_code}}-({{$transa->accounting->account_name}})</div>
+
+
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label style="font-size:15px;" class="text-info">Type</label>
+                                                @if ($transa->type == 1)
+                                                    <div style="font-size:15px;">Debit</div>
+                                                @endif
+                                                @if ($transa->type == 2)
+                                                    <div style="font-size:15px;">Credit</div>
+                                                @endif
+
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label style="font-size:15px;" class="text-info">Date</label>
+
+                                                <div style="font-size:15px;">{{$transa->date}}</div>
+
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label style="font-size:15px;" class="text-info">Amount</label>
+
+                                                <div style="font-size:15px;">{{$transa->amount}}</div>
+
+                                            </div>
+                                            @endif
+                                            @endif
+                                           @endforeach
+                                        </div>
+                                    </div>
+
+                                <td>
+                                </tr>
+                        </tbody>
+                        @endif
+                        @endforeach
+                </table>
+
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="add_incomes" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Incoming</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            <div class="modal-body" id="slimtest2">
+                <form action="{{route('store_incoming')}}" method="POST">
+                    @csrf
+                    <div class="row offset-md-5">
+                        <div class="col-md-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="bank_cash" id="bank" value="1" onclick="show_bank_acc()">
+                            <label class="form-check-label text-success" for="bank">Bank</label>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-check form-check-inline">
+
+                            <input class="form-check-input" type="radio" name="bank_cash" id="cash" value="2" onclick="show_cash_acc()">
+                            <label class="form-check-label text-success" for="cash">Cash</label>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3" id="bankkk">
+                        <label class="control-label">Bank Account</label>
+                        <select class="form-control" name="bank_acc">
+                            <option value="">Select Bank Account</option>
+                           @foreach ($account as $acc)
+                            <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}</option>
+                           @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group mt-3" id="cashhh">
+                        <label class="control-label">Cash Account</label>
+                        <select class="form-control" name="cash_acc">
+                            <option value="">Select Cash Account</option>
+                           @foreach ($cash_account as $acc)
+                            <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}</option>
+                           @endforeach
+                        </select>
+                    </div>
+
+
+                            <div class="form-group mt-3">
+                                <label class="control-label">Incoming Account</label>
+                                <select class="form-control" name="exp_acc">
+                                    <option value="">Select Incoming Account</option>
+                                   @foreach ($inc_account as $acc)
+                                    <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}</option>
+                                   @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Amount</label>
+                                <input type="number" class="form-control" name="amount">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Date</label>
+                                <input type="date" class="form-control"  name="date">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Remark</label>
+                                <input type="text" class="form-control" name="remark">
+                            </div>
+
+
+                                <div class="row">
+                                    <div class=" col-md-9">
+                                        <button type="submit" class="btn btn-success">Submit</button>
+                                        <button type="button" class="btn btn-inverse btn-dismiss" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@endsection
+
+<script>
+
+    function show_bank_acc(){
+        // alert('hello');
+        $('#cashhh').hide();
+        $('#bankkk').show();
+    }
+    function show_cash_acc(){
+        // alert('hello');
+        $('#bankkk').hide();
+        $('#cashhh').show();
+    }
+    function hide_bank_acc(){
+        // alert('hello');
+        $('#bankkk').hide();
+        $('#cashhh').hide();
+    }
+
+            $('.dropify').dropify();
+
+        $('#mdate').bootstrapMaterialDatePicker({ weekStart: 0, time: false });
+
+        $('#mdate').prop("disabled",true);
+        $('#period').prop("disabled",true);
+
+        function showPeriod(value){
+
+            var show_options = value;
+
+            if( show_options == 1){
+                $('#mdate').prop("disabled",true);
+                $('#period').prop("disabled",false);
+                }
+
+            else{
+
+                $('#mdate').prop("disabled",false);
+                $('#period').prop("disabled",true);
+            }
+        }
+    </script>
+
+
+===incoming type===
+@extends('master')
+@section('title','Account List')
+@section('link','Account List')
+@section('content')
+<div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Account List</h3>
+
+              <button id="" class="btn btn-primary float-right" data-toggle="modal" data-target="#new_account" onclick="hide_proj()"> <i class="fa fa-plus"></i> Create Accounting</button>
+                <div class="modal fade" id="new_account" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header bg-info">
+                            <h5 class="modal-title" id="exampleModalLabel">Add New Accounting</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{route('store_accounting')}}" method="post">
+                            @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="name">Account Code</label>
+                                <input type="text" class="form-control border border-info" name="acc_code" id="acc_code" placeholder="eg. 123456">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Account Name</label>
+                                <input type="text" class="form-control border-info" name="acc_name" id="acc_name" placeholder="eg. Revenue Account">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Account Type</label>
+                                <select class="custom-select border-info" name="account_type_id">
+                                    <option>Choose Account Type</option>
+                                <option value="6">Revenue</option>
+                                <option value="14">Other Revenue</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Projected Related</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="yes_no" id="yes" value="1" onclick="show_project()">
+                                        <label class="form-check-label text-info" for="bank">Yes</label>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-check form-check-inline">
+
+                                        <input class="form-check-input" type="radio" name="yes_no" id="no" value="2" onclick="hide_project()">
+                                        <label class="form-check-label text-info" for="cash">No</label>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" id="proj">
+                                <label for="name">Project</label>
+                                <select class="custom-select border-info" name="project_id">
+                                    <option value="0">Choose Project Name</option>
+                                    @foreach($saleproject as $salepro)
+                                    <option value="{{$salepro->id}}">{{$salepro->id}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.card-header -->
+            <div class="card-body">
+
+              <table id="example1" class="table">
+                <thead class="text-center bg-info">
+                	<tr>
+                    <th>No</th>
+                    <th>Account Name</th>
+                    <th>Account Code</th>
+                    <th>Project Name</th>
+                    <th>Related Project</th>
+
+                  </tr>
+                </thead>
+                <?php $i=1; ?>
+                <tbody class="text-center">
+                @foreach($account as $acc)
+                @if ($acc->general_project_flag == 1)
+                <tr>
+                    <td>{{$i++}}</td>
+                    <td>{{$acc->account_name}}</td>
+                    <td>{{$acc->account_code}}</td>
+                    <td>{{$acc->id}}</td>
+                    <td>Projected Related</td>
+
+                    </tr>
+                @endif
+                @if ($acc->general_project_flag == 0)
+                <tr>
+                    <td>{{$i++}}</td>
+                    <td>{{$acc->account_name}}</td>
+                    <td>{{$acc->account_code}}</td>
+                    <td>{{$acc->account_type}}</td>
+                    <td>-</td>
+                    </tr>
+                @endif
+                @endforeach
+                </tbody>
+
+              </table>
+
+            </div>
+          </div>
+</div>
+@endsection
+
+<script>
+
+    function show_project(){
+        // alert('hello');
+        $('#proj').show();
+    }
+    function hide_project(){
+        // alert('hello');
+        $('#proj').hide();
+    }
+    function hide_proj(){
+        // alert('hello');
+        $('#proj').hide();
+    }
+
+
+</script>
+
+====cost center====
+@extends('master')
+@section('title','Account List')
+@section('link','Account List')
+@section('content')
+<div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Cost Center List</h3>
+
+              <button id="" class="btn btn-primary float-right" data-toggle="modal" data-target="#cost_center"> <i class="fa fa-plus"></i> Create Cost Center</button>
+            </div>
+            <div class="card-body">
+
+                <table id="example1" class="table">
+                  <thead class="text-center bg-info">
+                      <tr>
+                      <th>No</th>
+                      <th>Cost Center Name</th>
+                      <th>Action</th>
+
+                    </tr>
+                  </thead>
+                  <?php $i=1; ?>
+                  <tbody class="text-center">
+                      @foreach ($cost_centers as $cc)
+                          <tr>
+                              <td>{{$i++}}</td>
+                              <td>{{$cc->name}}</td>
+                              <td>
+                                  <a href="" class="btn btn-sm btn-warning">Update</a>
+                                  <a href="" class="btn btn-sm btn-danger">Delete</a>
+                              </td>
+                          </tr>
+                      @endforeach
+                  </tbody>
+                </table>
+          </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cost_center" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header bg-info">
+            <h5 class="modal-title" id="exampleModalLabel">Add New Cost Center</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form action="{{route('store_cost_center')}}" method="post">
+            @csrf
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="name">Cost Center Name</label>
+                <input type="text" class="form-control border border-info" name="cc_name" placeholder="eg. mg mg">
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+        </form>
+        </div>
+    </div>
+</div>
+@endsection
