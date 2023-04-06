@@ -239,7 +239,7 @@
                                                             </div>
 
                                                             <div class="modal-body">
-                                                                <form class="form-material m-t-40" method="post" action="{{route('item_update',$item->id)}}" enctype='multipart/form-data'>
+                                                                <form class="form-material m-t-40" method="post" action="{{route('factoryitem_update',$item->id)}}">
                                                                     @csrf
 
                                                                     <div class="form-group">
@@ -252,10 +252,6 @@
                                                                         <input type="text" name="item_name" class="form-control" value="{{$item->item_name}}">
                                                                     </div>
 
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">@lang('lang.item_photo')</label>
-                                                                        <input type="file" name="photo_path" class="form-control">
-                                                                    </div>
 
                                                                     <div class="form-group">
                                                                         <label class="font-weight-bold">@lang('lang.related_category')</label>
@@ -270,7 +266,7 @@
                                                                         <select class="form-control select2 m-b-10" name="sub_category_id" style="width: 100%">
                                                                             @foreach($sub_categories as $sub_category)
                                                                             @if($sub_category->category_id == $item->category_id)
-                                                                            <option value="{{$sub_category->id}}" @if($item->sub_category_id === $sub_category->id) selected='selected' @endif>{{$sub_category->name}}</option>
+                                                                            <option value="{{$sub_category->id}}" @if($item->subcategory_id === $sub_category->id) selected='selected' @endif>{{$sub_category->name}}</option>
                                                                             @endif
                                                                             @endforeach
                                                                         </select>

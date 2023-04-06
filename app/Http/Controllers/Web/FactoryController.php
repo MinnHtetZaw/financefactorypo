@@ -747,5 +747,45 @@ public function storeFactoryPoExpense(Request $request){
     alert('Added Transaction Successfully!!');
   return redirect()->back();
 }
+protected function updatefactoryItem($id, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'item_code' => 'required',
+            'item_name' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+
+            alert()->error('Something Wrong!');
+
+            return redirect()->back();
+        }
+
+        try {
+
+            $item = FactoryItem::findOrFail($id);
+
+        } catch (\Exception $e) {
+
+            alert()->error("Item Not Found!")->persistent("Close!");
+
+            return redirect()->back();
+
+        }
+
+        $item->item_code = $request->item_code;
+
+        $item->item_name = $request->item_name;
+
+        $item->category_id = $request->category_id;
+
+        $item->subcategory_id = $request->sub_category_id;
+
+        $item->save();
+
+        alert()->success('Successfully Updated!');
+
+        return redirect()->back();
+    }
 
 }

@@ -895,13 +895,18 @@
             }
 
             function yardplus(id) {
-                var now_qty = parseInt($(`#nowyardsperroll${id}`).val());
+                var now_qty = parseFloat($(`#nowyardsperroll${id}`).val());
+
+                $(`#nowyardsperroll${id}`).on('keypress',function(){
+                    var keycode= (event.keyCode ? event.keyCode : event.which);
+                        if(keycode=='13'){
                 count_change(id, 'yard', now_qty);
                 $(`#nowyardsperroll${id}`).focus();
                 var num = $(`#nowyardsperroll${id}`).val();
                 $(`#nowyardsperroll${id}`).focus().val('').val(num);
 
-            }
+            }})
+    }
 
             function qtyplus(id) {
                 var now_qty = parseInt($(`#nowqty${id}`).val());
@@ -1226,7 +1231,7 @@
                             <td class="text-black text-center w-20 m-0 p-0">${each_sub ?? 0}</td>
 
                             <td class="text-black w-20 m-0 p-0">
-                                <input onkeyup="storeRemark(${v.id})" type="text" class=" form-control w-100 text-black text-center p-0 mt-1" id="nowremark${id}" value="remark" style="border: none;border-color: transparent; font-size:14px;" placeholder="remark">
+                                <input onkeyup="storeRemark(${v.id})" type="text" class=" form-control w-100 text-black text-center p-0 mt-1" id="nowremark${id}" value="${v.remark}" style="border: none;border-color: transparent; font-size:14px;" placeholder="remark">
                             </td>
 
                             <td><i class="fa fa-times" onclick="remove(${id},${v.sub_yards})" id="${id}"></i> </td>
@@ -1256,7 +1261,7 @@
                             <td class="text-black text-center w-20 m-0 p-0">${each_sub ?? 0}</td>
 
                             <td class="text-black w-20 m-0 p-0">
-                                <input onkeyup="storeRemark(${v.id})" type="text" class=" form-control w-100 text-black text-center p-0 mt-1" id="nowremark${id}" value="remark" style="border: none;border-color: transparent; font-size:14px;" placeholder="remark">
+                                <input onkeyup="storeRemark(${v.id})" type="text" class=" form-control w-100 text-black text-center p-0 mt-1" id="nowremark${id}" value="${v.remark}" style="border: none;border-color: transparent; font-size:14px;" placeholder="remark">
                             </td>
 
                             <td><i class="fa fa-times" onclick="remove(${id},${v.order_qty})" id="${id}"></i> </td>

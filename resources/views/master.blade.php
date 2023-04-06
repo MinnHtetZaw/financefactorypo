@@ -448,22 +448,22 @@
             </ul>
           </li>
 
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a href="{{route('customer_list')}}" class="nav-link">
               <i class="nav-icon fas fa-user-friends"></i>
               <p>
                 Customer
               </p>
             </a>
-          </li>
-          <li class="nav-item">
+          </li> --}}
+          {{-- <li class="nav-item">
             <a href="{{route('show_project')}}" class="nav-link">
               <i class="nav-icon fas fa-project-diagram"></i>
               <p>
                 Project List
               </p>
             </a>
-          </li>
+          </li> --}}
 
           <li class="nav-item">
             <a href="{{route('logout')}}" class="nav-link">

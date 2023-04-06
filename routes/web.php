@@ -60,6 +60,8 @@ Route::group(['middleware' => ['UserAuth']], function () {
     // Route::post('purchseupdate-ajax', 'Web\FactoryController@purchaseUpdateAjax')->name('purchaseupdate-ajax');
     Route::post('saveArriveFactory', 'Web\FactoryController@saveArriveFactory')->name('saveArriveFactory');
     Route::post('store_factorypo_expense','Web\FactoryController@storeFactoryPoExpense')->name('store_factorypo_expense');
+    Route::post('factoryitem/update/{id}','Web\FactoryController@updatefactoryItem')->name('factoryitem_update');
+
 
     // Route::get('category_list', 'Web\InventoryController@category_list')->name('category_list');
     // Route::post('store_category', 'Web\InventoryController@store_category')->name('store_category');
