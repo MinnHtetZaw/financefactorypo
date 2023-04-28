@@ -68,7 +68,7 @@ Route::group(['middleware' => ['UserAuth']], function () {
     Route::get('sub_category_list', 'TenderGeneralController@sub_category_list')->name('sub_category_list');
     Route::post('store_subcategory', 'TenderGeneralController@store_subcategory')->name('store_subcategory');
     // Route::get('bank_list', 'Web\InventoryController@bank_list')->name('bank_list');
-    // Route::get('company_information', 'Web\InventoryController@company_information')->name('company_information');
+    Route::get('company_information', 'TenderGeneralController@company_information')->name('company_information');
 
 	// Route::post('update_cate','TenderGeneralController@update_category')->name('update_cate');
 
@@ -350,7 +350,7 @@ Route::group(['middleware' => ['UserAuth']], function () {
 
 	Route::post('StoreDoctor', 'Web\DoctorController@StoreDoctor')->name('store_doctor');
 
-    Route::get('company_information', 'Web\InventoryController@company_information')->name('company_information');
+    // Route::get('company_information', 'Web\InventoryController@company_information')->name('company_information');
 	Route::post('ajaxProduct_Comparison', 'Web\InventoryController@get_product_supplier_comparison');
 	Route::post('ajaxComparison_detail', 'TenderGeneralController@show_comparison_detail');
 	Route::get('type_list','Web\InventoryController@type_list')->name('show_type_lists');
