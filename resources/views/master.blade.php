@@ -409,6 +409,30 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{route('accounttypeList')}}" class="nav-link">
+              <i class="nav-icon far fa-address-card"></i>
+              <p>
+                Account Type
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('headingList')}}" class="nav-link">
+              <i class="nav-icon far fa-address-card"></i>
+              <p>
+                Heading
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('subheadingList')}}" class="nav-link">
+              <i class="nav-icon far fa-address-card"></i>
+              <p>
+                Sub Heading
+              </p>
+            </a>
+          </li>
 
           <li class="nav-item has-treeview" >
             <a href="#" class="nav-link" id="master_data">

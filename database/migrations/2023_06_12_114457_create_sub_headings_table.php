@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccountingTypesTable extends Migration
+class CreateSubHeadingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateAccountingTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounting_types', function (Blueprint $table) {
+        Schema::create('sub_headings', function (Blueprint $table) {
             $table->id();
-            $table->string('type_name');
-            $table->string('description')->nullable();
+            $table->string('name');
+            $table->unsignedInteger('heading_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateAccountingTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounting_types');
+        Schema::dropIfExists('sub_headings');
     }
 }

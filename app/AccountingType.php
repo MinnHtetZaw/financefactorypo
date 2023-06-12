@@ -10,6 +10,7 @@ class AccountingType extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'type_name'
+        'type_name',
+        'description'
     ];
 }

@@ -3,13 +3,14 @@
 use App\Doctor;
 use App\Events\DoctorChange;
 use App\Events\TestingEvent;
+use PhpParser\Node\Expr\FuncCall;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\AccountController;
+use App\Http\Controllers\Web\ProjectController;
 use App\Http\Controllers\TenderGeneralController;
 use App\Http\Controllers\Web\InventoryController;
-use App\Http\Controllers\Web\ProjectController;
-use App\Http\Controllers\Web\FinancialReportController;
 use App\Http\Controllers\WarehouseStockController;
-use Illuminate\Support\Facades\Route;
-use PhpParser\Node\Expr\FuncCall;
+use App\Http\Controllers\Web\FinancialReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -607,8 +608,20 @@ return view('example_profile');
     //Financial Report End
 
 
+    // Account Type
+    Route::get('account_type',[AccountController::class,'getAccountType'])->name('accounttypeList');
+    Route::post('account_type_store',[AccountController::class,'storeAccountType'])->name('account_type_store');
+    Route::post('account_type_update/{id}',[AccountController::class,'updateAccountType'])->name('account_type_update');
 
+    Route::get('heading',[AccountController::class,'getHeading'])->name('headingList');
+    Route::post('heading_store',[AccountController::class,'storeHeading'])->name('heading_store');
+    Route::post('heading_update/{id}',[AccountController::class,'updateHeading'])->name('heading_update');
 
+    Route::get('subheading',[AccountController::class,'getSubHeading'])->name('subheadingList');
+    Route::post('subheading_store',[AccountController::class,'storeSubHeading'])->name('subheading_store');
+    Route::post('subheading_update/{id}',[AccountController::class,'updateSubHeading'])->name('subheading_update');
+
+    Route::post('')
 
 
 
