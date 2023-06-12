@@ -15,6 +15,7 @@ class CreateSubHeadingsTable extends Migration
     {
         Schema::create('sub_headings', function (Blueprint $table) {
             $table->id();
+            $table->string('code');
             $table->string('name');
             $table->unsignedInteger('heading_id');
             $table->timestamps();

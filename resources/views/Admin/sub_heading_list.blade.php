@@ -3,9 +3,6 @@
 @section('link','Sub Heading List')
 @section('content')
 
-
-
-
 <div class="row">
         <div class="col-12">
           <div class="card">
@@ -31,27 +28,25 @@
                                 <select name="account_id" class="form-control" id="account" onchange="changeHeading()">
                                     <option hidden>Choose Accounting Type</option>
                                     @foreach ($accounttypes as $accounttype )
-                                    <option value={{$accounttype->id}} selected='accounttype_id'>{{$accounttype->type_name}}</option>
+                                    <option value={{$accounttype->id}} >{{$accounttype->type_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
 
 
 
-                            <div class="form-group" >
+                            <div class="form-group" id="heading_form">
 
-                                <label for="name">Heading </label>
-                                <select name="heading_id" class="form-control" >
-                                    <option hidden>Choose Heading</option>
+                                <label for="name">Heading Type</label>
+                                <select name="heading_id" class="form-control" id="heading">
 
-                                    @foreach ($headings as $heading )
-
-                                    <option value={{$heading->id}}>{{$heading->type_name}}</option>
-
-                                    @endforeach
                                 </select>
 
+                            </div>
 
+                            <div class="form-group">
+                                <label for="name">Code</label>
+                                <input type="text" class="form-control border-info" name="code"  placeholder="eg. 123">
                             </div>
 
                             <div class="form-group">
@@ -76,6 +71,7 @@
                 <thead class="text-center bg-info">
                 	<tr>
                     <th>No</th>
+                    <th>Code</th>
                     <th>Sub Heading</th>
                     <th>Heading</th>
                     <th>Action</th>
@@ -88,7 +84,7 @@
 
                 <tr>
                     <td>{{$i++}}</td>
-
+                    <td>{{$subheading->code}}</td>
                     <td>{{$subheading->name}}</td>
                     <td>{{$subheading->heading->type_name}}</td>
                     <td><a href="" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#update_subheading{{$subheading->id}}">Update</a>
@@ -122,6 +118,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
+                                <label for="name">Code</label>
+                                <input type="text" class="form-control border-info" name="code"  placeholder="eg. 123"  value="{{$subheading->code}}">
+                            </div>
+                            <div class="form-group">
                                 <label for="name">Sub Heading Name</label>
                                 <input type="text" class="form-control border border-info" name="subheading_name" value="{{$subheading->name}}">
                             </div>
@@ -147,41 +147,52 @@
 </div>
 @endsection
 
+@section('js')
+<script  type="text/javascript">
 
-<script>
+$(document).ready(function() {
+
+
+    $('#heading_form').hide();
+
+});
+
 function changeHeading(){
-
-var val  = $('#account').val();
-$.ajax({
+    $('#heading_form').show();
+    $('#heading').empty()
+    var val  = $('#account').val();
+    $.ajax({
                         type: 'POST',
                         url: '/heading_search',
                         dataType: 'json',
                         data: {
                             "_token": "{{ csrf_token() }}",
-                            "category_id": val,
+                            "accouting_type_id": val,
                         },
 
                         success: function(data) {
-                            console.log(data);
-                            // if(data.length > 0){
-                            //     $('#subcategory').append($('<option>').text('Subcategory'));
-                            //     $.each(data, function(i, value) {
-                            //         $('#subcategory').append($('<option>').text(value.name).attr('value', value.id));
-                            //     });
-                            // }else{
-                            //     $('#subcategory').append($('<option>').text('No Subcategory'));
-                            // }
+                            // console.log(data);
+                            if(data.length > 0){
+                                $('#heading').append($('<option>').text('Choose Heading'));
+                                $.each(data, function(i, value) {
+                                    $('#heading').append($('<option>').text(value.type_name).attr('value', value.id));
+                                });
+                            }else{
+                                $('#heading').append($('<option>').text('No Heading'));
+                            }
                         },
 
-                        // error: function(status) {
-                        //     swal({
-                        //         title: "Something Wrong!",
-                        //         text: "Error in subcategory search",
-                        //         icon: "error",
-                        //     });
-                        // }
+                        error: function(status) {
+                            swal({
+                                title: "Something Wrong!",
+                                text: "Error in heading search",
+                                icon: "error",
+                            });
+                        }
 
                     });
 
-}
+};
+
 </script>
+@endsection

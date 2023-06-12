@@ -9,9 +9,10 @@ class SubHeading extends Model
 {
     use HasFactory;
 
-   
+
 
     protected $fillable = [
+        'code',
         'name',
         'heading_id'
     ];

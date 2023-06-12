@@ -95,7 +95,7 @@ Route::group(['middleware' => ['UserAuth']], function () {
     Route::post('store_sell_end', 'TenderGeneralController@store_sell_end')->name('store_sell_end');
     Route::get('add_asset', 'TenderGeneralController@add_asset')->name('add_asset');
 
-	Route::get('AccountList', 'Web\OperatorController@ShowAccountList')->name('account_list');
+	// Route::get('AccountList', 'Web\OperatorController@ShowAccountList')->name('account_list');
     // Route::get('profit_loss_acc_list', 'Web\OperatorController@profit_loss_acc_list')->name('profit_loss_acc_list');
     // Route::get('balancesheet_acc_list', 'Web\OperatorController@balancesheet_acc_list')->name('balancesheet_acc_list');
     // Route::get('trial_balance', 'Web\OperatorController@trial_balance')->name('trial_balance');
@@ -106,7 +106,7 @@ Route::group(['middleware' => ['UserAuth']], function () {
 	Route::post('check_project_type','TenderGeneralController@check_projectType')->name('check_project_type');
 	// Route::get('show_project','TenderGeneralController@show_projectsale')->name('show_project');
 	// Route::post('store_sale_project','TenderGeneralController@store_sale_project')->name('store_sale_project');
-	Route::post('store_accounting','TenderGeneralController@store_accounting_account')->name('store_accounting');
+	// Route::post('store_accounting','TenderGeneralController@store_accounting_account')->name('store_accounting');
 	// Route::get('create-product', 'TenderGeneralController@createProduct')->name('create-product');
 
 	// Route::get('product_list', 'TenderGeneralController@product_list')->name('product_list');
@@ -621,7 +621,7 @@ return view('example_profile');
     Route::post('subheading_store',[AccountController::class,'storeSubHeading'])->name('subheading_store');
     Route::post('subheading_update/{id}',[AccountController::class,'updateSubHeading'])->name('subheading_update');
 
-    Route::post('')
-
-
-
+    Route::post('heading_search',[AccountController::class,'searchHeading']);
+    Route::post('subheading_search',[AccountController::class,'searchSubHeading']);
+    Route::post('store_accounting',[AccountController::class,'storeAccounting'])->name('store_accounting');
+    Route::get('AccountList', [AccountController::class,'ShowAccountList'])->name('account_list');

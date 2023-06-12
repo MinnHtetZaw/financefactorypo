@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Currency;
+use App\Accounting;
+use App\SubHeading;
 use App\HeadingType;
 use App\AccountingType;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\FuncCall;
 use App\Http\Controllers\Controller;
-use App\SubHeading;
 
 class AccountController extends Controller
 {
@@ -91,7 +94,7 @@ class AccountController extends Controller
     public function storeSubHeading(Request $request)
     {
         $subheading = new SubHeading();
-
+        $subheading->code=$request->code;
         $subheading->name=$request->subheading_name;
         $subheading->heading_id=$request->heading_id;
 
@@ -104,10 +107,52 @@ class AccountController extends Controller
     {
         $subheading = SubHeading::find($id);
 
+        $subheading->code=$request->code;
         $subheading->heading_id=$request->heading_id;
         $subheading->name=$request->subheading_name;
         $subheading->save();
 
         return back();
+    }
+
+    public function searchHeading(Request $request)
+    {
+
+        $heading = HeadingType::where('accounting_type_id',$request->accouting_type_id)->get();
+
+        return response()->json($heading);
+    }
+
+    public function searchSubHeading(Request $request)
+    {
+        $subheading = SubHeading::where('heading_id',$request->heading_id)->get();
+
+        return response()->json($subheading);
+    }
+
+    public function ShowAccountList(Request $request) {
+
+            $account = Accounting::all();
+            $subheadings = SubHeading::all();
+            $account_type = AccountingType::all();
+            $currency  = Currency::all();
+
+             return view('Admin.account_list',compact('currency','account','account_type','subheadings'));
+        }
+
+    public function storeAccounting(Request $request)
+    {
+
+            Accounting::create([
+            'account_code' => $request->acc_code,
+            'account_name' => $request->acc_name,
+            'subheading_id' => $request->subheading_id,
+            'currency_id' =>$request->currency,
+            'balance' => $request->balance,
+           ]);
+
+        return back();
+
+
     }
 }
