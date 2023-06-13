@@ -133,7 +133,7 @@
 
 
 
-                                {{-- <div class="modal fade" id="update_account{{$acc->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="update_account{{$acc->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                         <div class="modal-header bg-info">
@@ -146,6 +146,48 @@
                             @csrf
                         <div class="modal-body">
                             <div class="form-group">
+                                <label for="name">Account Type</label>
+                                <select class="custom-select border-info" name="accounting_type_id"
+                                    id="account" >
+                                    <option value={{$acc->subheading->heading->accountingtype->id}} selected>{{$acc->subheading->heading->accountingtype->type_name}}</option>
+                                    @foreach ($account_type as $acc_type)
+                                    @if ($acc->subheading->heading->accountingtype->id !=  $acc_type->id)
+                                    <option value={{ $acc_type->id }}>{{ $acc_type->type_name }}</option>
+                                    @endif
+
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group" id="heading_form">
+
+                                <label for="name">Heading Type</label>
+                                <select name="heading_id" class="form-control" id="heading">
+                                    <option value={{$acc->subheading->heading->id}} selected>{{$acc->subheading->heading->type_name}}</option>
+                                    @foreach ($headings as $heading)
+                                    @if ($acc->subheading->heading->id !=  $heading->id)
+                                    <option value={{ $heading->id }}>{{ $heading->type_name }}</option>
+                                    @endif
+
+                                    @endforeach
+                                </select>
+
+                            </div>
+                            <div class="form-group" id="subheading_form">
+
+                                <label for="name">Sub Heading Type</label>
+                                <select name="subheading_id" class="form-control" id="subheading">
+                                    <option value={{$acc->subheading->id}} selected>{{$acc->subheading->name}}</option>
+                                    @foreach ($subheadings as $subheading)
+                                    @if ($acc->subheading->id !=  $subheading->id)
+                                    <option value={{ $subheading->id }}>{{ $subheading->name }}</option>
+                                    @endif
+
+                                    @endforeach
+                                </select>
+
+                            </div>
+
+                            <div class="form-group">
                                 <label for="name">Account Code</label>
                                 <input type="text" class="form-control border border-info" name="acc_code" value="{{$acc->account_code}}">
                             </div>
@@ -153,36 +195,23 @@
                                 <label for="name">Account Name</label>
                                 <input type="text" class="form-control border-info" name="acc_name" value="{{$acc->account_name}}">
                             </div>
-                            <div class="form-group">
-                                <label for="name">Account Type</label>
-                                <select class="custom-select border-info" name="account_type_id">
-                                <option value="0">{{$acc->account_type}}</option>
-                                    @foreach ($account_type as $acc_type)
-                                    <option value="{{$acc_type->id}}">{{$acc_type->type_name}}</option>
-                                   @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Cost Center</label>
-                                <select class="custom-select border-info" name="cost_center">
-                                    <option value="{{$acc->cost_center_id}}">{{$acc->cost_center->name}}</option>
-                                    @foreach ($cost_center as $cc)
-                                    <option value="{{$cc->id}}">{{$cc->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+
+
                             <div class="form-group">
                                 <label for="name">Balance</label>
-                                <input type="text" class="form-control border-info" name="balance" value="{{$acc->amount}}">
+                                <input type="text" class="form-control border-info" name="balance" value="{{$acc->balance}}">
                             </div>
                             <div class="form-group">
                                 <label for="name">Currency</label>
                                 <select class="custom-select border-info" name="currency">
 
-                                    <option value="{{$acc->currency_id}}">{{$acc->curr->name}}</option>
+                                    <option value="{{$acc->currency_id}}">{{$acc->currency->name}}</option>
 
                                     @foreach ($currency as $cc)
+                                    @if ($acc->currency_id != $cc->id)
                                     <option value="{{$cc->id}}">{{$cc->name}}</option>
+                                    @endif
+
                                     @endforeach
                                 </select>
                             </div>
@@ -195,7 +224,7 @@
                         </form>
                         </div>
                     </div>
-                </div> --}}
+                </div>
                             @endforeach
                         </tbody>
 

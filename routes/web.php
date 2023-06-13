@@ -78,7 +78,7 @@ Route::group(['middleware' => ['UserAuth']], function () {
 	Route::post('update_subcate','TenderGeneralController@update_subcategory')->name('update_subcate');
 	Route::post('delete_subcate','TenderGeneralController@delete_subcategory')->name('delete_subcate');
 
-    Route::post('store_bank', 'TenderGeneralController@store_bank')->name('store_bank');
+    // Route::post('store_bank', 'TenderGeneralController@store_bank')->name('store_bank');
     Route::post('store_company', 'TenderGeneralController@store_company')->name('store_company');
     Route::post('update_company', 'TenderGeneralController@update_company')->name('update_company');
     Route::post('store_tran', 'TenderGeneralController@store_tran')->name('store_tran');
@@ -88,7 +88,7 @@ Route::group(['middleware' => ['UserAuth']], function () {
 
     Route::get('fixed_asset', 'TenderGeneralController@fixed_asset')->name('fixed_asset');
     Route::get('expense', 'TenderGeneralController@expense')->name('expense');
-    Route::get('incoming', 'TenderGeneralController@incoming')->name('incoming');
+    // Route::get('incoming', 'TenderGeneralController@incoming')->name('incoming');
     Route::get('incoming_type', 'TenderGeneralController@incoming_type')->name('incoming_type');
     Route::get('expense_type', 'TenderGeneralController@expense_type')->name('expense_type');
     Route::post('store_assets', 'TenderGeneralController@store_asset')->name('store_assets');
@@ -123,7 +123,7 @@ Route::group(['middleware' => ['UserAuth']], function () {
 	Route::post('ajaxSendMaterialIssue', 'Web\WarehouseStockController@ajaxSendMaterialIssue')->name('ajaxSendMaterialIssue');
 
     Route::post('update_currency/{id}', 'TenderGeneralController@update_currency')->name('update_currency');
-    Route::post('update_accounting/{id}', 'TenderGeneralController@update_accounting')->name('update_accounting');
+    // Route::post('update_accounting/{id}', 'TenderGeneralController@update_accounting')->name('update_accounting');
     Route::post('store_cost_center', 'TenderGeneralController@store_cost_center')->name('store_cost_center');
 	// Route::post('store_product', 'TenderGeneralController@store_product')->name('store_product');
 	Route::get('add_invoice','TenderGeneralController@add_new_invoice')->name('add_invoice');
@@ -571,7 +571,7 @@ return view('example_profile');
 	Route::post('showSubCategory', 'Web\InventoryController@showSubCategory');
 
     //Brand
-    Route::get('bank_list', 'TenderGeneralController@bank_list')->name('bank_list');
+    // Route::get('bank_list', 'TenderGeneralController@bank_list')->name('bank_list');
     Route::get('brand_list','Web\InventoryController@brand_list')->name('show_brand_lists');
 	Route::post('brand/update/{id}', 'Web\InventoryController@updateBrand')->name('brand_update');
 	Route::post('brand/store', 'Web\InventoryController@storeBrand')->name('brand_store');
@@ -625,3 +625,7 @@ return view('example_profile');
     Route::post('subheading_search',[AccountController::class,'searchSubHeading']);
     Route::post('store_accounting',[AccountController::class,'storeAccounting'])->name('store_accounting');
     Route::get('AccountList', [AccountController::class,'ShowAccountList'])->name('account_list');
+    Route::get('incoming',[AccountController::class,'incoming'])->name('incoming');
+    Route::get('bank_list', [AccountController::class,'bank_list'])->name('bank_list');
+    Route::post('store_bank', [AccountController::class,'store_bank'])->name('store_bank');
+    Route::post('update_accounting/{id}',[AccountController::class,'update_accounting'])->name('update_accounting');

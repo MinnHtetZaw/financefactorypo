@@ -63,7 +63,7 @@
             </div>
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control border border-info" name="name" placeholder="eg. mg mg">
+                <input type="text" class="form-control border border-info" name="name" placeholder="eg. USD">
             </div>
             <div class="form-group">
                 <label for="name">Exchange Rate</label>
