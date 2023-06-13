@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFactoryItemFactoryPoTable extends Migration
+class CreateFactroyFabricDatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateFactoryItemFactoryPoTable extends Migration
      */
     public function up()
     {
-        Schema::create('factory_item_factory_po', function (Blueprint $table) {
+        Schema::create('factroy_fabric_dates', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedInteger('purchase_id');
             $table->unsignedInteger('factory_item_id');
-            $table->unsignedInteger('factory_po_id');
-            $table->integer('purchase_price')->default(0);
-            $table->float('quantity')->default(0);
-            $table->text('remark')->nullable();
+            $table->float('arrive_quantity');
+            $table->string('remark');
+            $table->date('arrive_date');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateFactoryItemFactoryPoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('factory_item_factory_po');
+        Schema::dropIfExists('factroy_fabric_dates');
     }
 }

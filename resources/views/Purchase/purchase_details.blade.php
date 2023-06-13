@@ -77,6 +77,7 @@
 		                                <th>@lang('lang.item') @lang('lang.name')</th>
 		                                <th>@lang('lang.purchase_qty')</th>
 		                                <th>Arrived Quantity</th>
+                                        <th>Remaining Quantity</th>
 		                                <th>@lang('lang.purchase_price')</th>
 		                                <th>@lang('lang.sub_total')</th>
 		                            </tr>
@@ -100,18 +101,63 @@
 											<td class="w-25">
 
 												<input type="number" class="form-control w-100 purchaseinput text-black" data-purchaseinput="purchaseinput{{$unit->id}}" data-olderqty="{{$unit->pivot->quantity}}"
-												data-purchaseid="{{$purchase->id}}" id="purchaseinput{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->pivot->quantity}}">
+												data-purchaseid="{{$purchase->id}}" id="purchaseinput{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->pivot->quantity}}" disabled>
 
 											</td>
 
-											<td class="w-25">
-											    <input type="number" class="form-control w-100 arriveinput text-black" data-arriveinput="arriveinput{{$unit->id}}"  data-purchaseid="{{$purchase->id}}" id="arriveinput{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->pivot->arrive_quantity}}">
 
-											</td>
+                                            <td class="w-25">
+                                                <input type="number" class="form-control w-100 arriveinput text-black" data-arriveinput="arriveinput{{$unit->id}}"  data-purchaseid="{{$purchase->id}}" id="arriveinput{{$unit->id}}" data-id="{{$unit->id}}" value="0"
+                                                @if ($unit->pivot->arrive_complete === 1)
+                                                disabled
+                                                @endif >
+
+                                            </td>
+                                            <td class="w-25">
+                                                <input type="number" class="form-control w-100 text-black"
+
+                                                @if ($purchase->type_flag === 2)
+                                                value= "0"
+                                                @elseif ($purchase->type_flag === 1)
+                                                value="{{$unit->pivot->remaining_amount}}"
+                                                @endif
+                                            disabled>
+                                            </td>
 
 		                                	<td>{{$unit->pivot->price}}</td>
 		                                	<td>{{$unit->pivot->quantity * $unit->pivot->price}}</td>
+                                            <td>
+                                                <button class="btn btn-primary" data-toggle="collapse" href="#factoryitem{{$unit->id}}" role="button" aria-expanded="false" aria-controls="factoryitem">Related</button>
+                                            </td>
 		                                </tr>
+                                        <tr>
+                                            <td colspan="9">
+                                                <div class="collapse" id="factoryitem{{$unit->id}}">
+                                                    <table style="background-color:antiquewhite" class="table">
+                                                      <thead>
+                                                        <tr class="text-center">
+                                                            <th>arrive date</th>
+                                                            <th>arrive quantity</th>
+                                                            <th>remark</th>
+                                                        </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                        @foreach ($factoryitemdate as $unitdate)
+                                                        @if($unitdate->factory_item_id == $unit->id)
+                                                        <tr class="text-center">
+                                                            <td>{{ $unitdate->arrive_date }}</td>
+                                                            <td>{{ $unitdate->arrive_quantity }}</td>
+                                                            <td>{{ $unitdate->remark }}</td>
+                                                        </tr>
+                                                        @endif
+                                                        @endforeach
+
+                                                      </tbody>
+
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
 		                            @endforeach
 
                                     @elseif ($purchase->type_flag ==2)
@@ -133,6 +179,7 @@
 											    <input type="number" class="form-control w-100 arriveinput text-black" data-arriveinput="arriveinput{{$unit->id}}"  data-purchaseid="{{$purchase->id}}" id="arriveinput{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->pivot->quantity}}" disabled>
 
 											</td>
+
 
 		                                	<td>{{$unit->pivot->price}}</td>
 		                                	<td>{{$unit->pivot->quantity * $unit->pivot->price}}</td>

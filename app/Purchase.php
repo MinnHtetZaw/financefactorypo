@@ -21,12 +21,9 @@ class Purchase extends Model
 		'purchase_remark',
 	];
 
-	// public function counting_unit() {
-	// 	return $this->belongsToMany('App\CountingUnit')->withPivot('id','quantity','price');
-	// }
 
 	public function factory_item() {
-		return $this->belongsToMany('App\FactoryItem')->withPivot('id','quantity','price','arrive_quantity','arrive_complete');
+		return $this->belongsToMany('App\FactoryItem')->withPivot('id','quantity','price','arrive_quantity','remaining_amount','arrive_complete');
 	}
 
 	public function user(){

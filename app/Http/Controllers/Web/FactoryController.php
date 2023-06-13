@@ -17,6 +17,7 @@ use App\FactoryItem;
 use App\SaleProject;
 use App\SubCategory;
 use App\Transaction;
+use App\FactroyFabricDate;
 use App\SupplierCreditList;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -444,10 +445,9 @@ protected function storePurchaseHistory(Request $request){
                     $factory_item->save();
                 }
                 elseif($request->adjustment == 1){
-                          $purchase->factory_item()->attach($unit[$count], ['quantity' => $qty[$count], 'price' => $price[$count]]);
+                    $purchase->factory_item()->attach($unit[$count], ['quantity' => $qty[$count], 'price' => $price[$count],'remaining_amount'=>$qty[$count]]);
 
                 }
-
 
         }
 
@@ -486,6 +486,7 @@ protected function getPurchaseHistoryDetails($id){
     try {
 
         $purchase = Purchase::findOrFail($id);
+        $factoryitemdate = FactroyFabricDate::where('purchase_id',$purchase->id)->get();
 
     } catch (\Exception $e) {
 
@@ -493,74 +494,15 @@ protected function getPurchaseHistoryDetails($id){
 
         return redirect()->back();
     }
-
-    return view('Purchase.purchase_details', compact('purchase'));
+    // dd($purchase->factory_item->toArray());
+    return view('Purchase.purchase_details', compact('purchase','factoryitemdate'));
 
 }
 
-// public function purchaseDelete(Request $request)
-//     {
-//         $validator = Validator::make($request->all(), [
-//             'purchase_id' => 'required',
-//         ]);
-
-//         if ($validator->fails()) {
-
-//             alert()->error("Something Wrong! Validation Error");
-
-//             return redirect()->back();
-//         }
-
-
-//         // try {
-
-//         $purchase =Purchase::findOrfail($request->purchase_id);
-
-//         $purchase_units= $purchase->counting_unit;
-
-//         foreach($purchase_units as $unit){
-
-//             $current_stock= Stockcount::where("counting_unit_id",$unit->id)->where('from_id',1)->first();
-
-//             $balance_qty = $current_stock->stock_qty - $unit->pivot->quantity;
-//             if($balance_qty <0) {
-
-//             alert()->error("Stock ပြန်နုတ်ရန် မလုံလောက်ပါ..");
-
-//             return redirect()->back();
-//         }
-//             $current_stock->stock_qty = $balance_qty;
-
-//             $current_stock->save();
-
-//             $counting_units_delete= DB::table('counting_unit_purchase')->where('counting_unit_id', $unit->id)->where('purchase_id',$purchase->id)->delete();
-
-
-
-
-//         }
-//             // $purchase->counting_unit()->delete();
-
-
-//             $delete_credit = SupplierCreditList::where('purchase_id',$purchase->id)->first();
-//             $delete_credit->delete();
-//             $purchase->delete();
-//         // } catch (Exception $e) {
-
-//             // alert()->error("ဖျက်မရပါ..");
-
-//             // return redirect()->back();
-//         // }
-
-//         alert()->success("Successfully Deleted");
-
-//         return redirect()->route('purchase_list');
-
-//     }
 
 protected function saveArriveFactory(Request $request){
 
-
+    $arrive_format_date = date('Y-m-d', strtotime($request->arrive_date));
     $items = json_decode($request->arrivedItems);
     $purchase = Purchase::find($request->purchase_id);
 
@@ -575,8 +517,30 @@ protected function saveArriveFactory(Request $request){
                 $factoryitem->instock_qty += $item->arrive_qty;
                 $factoryitem->save();
             }
-            $purchase->factory_item()->updateExistingPivot($item->id,['arrive_quantity' => $item->arrive_qty,'arrive_complete' => $item->arrive_complete]);
 
+            $factory_fabric_save_date = new FactroyFabricDate();
+            $factory_fabric_save_date->purchase_id = $request->purchase_id;
+            $factory_fabric_save_date->factory_item_id = $item->id;
+            $factory_fabric_save_date->arrive_quantity = $item->arrive_qty;
+            $factory_fabric_save_date->remark =$request->arrive_remark;
+            $factory_fabric_save_date->arrive_date = $arrive_format_date;
+            $factory_fabric_save_date->save();
+
+
+            foreach ($purchase->factory_item as $unit) {
+                if ($unit->pivot->factory_item_id == $item->id) {
+                    $unit->pivot->remaining_amount -= $item->arrive_qty;
+
+                    $unit->pivot->arrive_quantity += $item->arrive_qty;
+
+                    if ($unit->pivot->remaining_amount == 0) {
+                        $status = 1;
+                    } else {
+                        $status = 0;
+                    }
+            $purchase->factory_item()->updateExistingPivot($item->id,['remaining_amount' => $unit->pivot->remaining_amount,'arrive_quantity' =>  $unit->pivot->arrive_quantity,'arrive_complete' => $status]);
+        }
+    }
         }
 
     }catch (\Exception $e) {

@@ -18,7 +18,7 @@ class CreateFactoryPosTable extends Migration
             $table->string('po_number')->unique();
             $table->timestamp('po_date')->nullable();
             $table->timestamp('receive_date')->nullable();
-            $table->integer('total_qty')->default(0);
+            $table->float('total_qty')->default(0);
             $table->integer('total_price')->default(0);
             $table->tinyinteger('status')->default(0);
             $table->string('requested_by')->nullable();

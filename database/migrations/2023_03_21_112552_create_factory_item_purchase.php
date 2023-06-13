@@ -17,8 +17,9 @@ class CreateFactoryItemPurchase extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('factory_item_id');
             $table->unsignedInteger('purchase_id');
-            $table->integer('quantity');
-            $table->integer('arrive_quantity')->default(0);
+            $table->float('quantity');
+            $table->float('arrive_quantity')->default(0);
+            $table->float('remaining_amount')->nullable();
             $table->integer('arrive_complete')->default(0);
             $table->integer('price');
             $table->timestamps();

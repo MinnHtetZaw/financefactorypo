@@ -17,7 +17,7 @@ class CreatePurchasesTable extends Migration
             $table->bigIncrements('id');
             $table->string('purchase_number');
             $table->string('supplier_name');
-            $table->integer('total_quantity');
+            $table->float('total_quantity');
             $table->integer('total_price');
             $table->integer('credit_amount');
             $table->date('purchase_date');

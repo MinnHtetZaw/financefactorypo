@@ -20,8 +20,8 @@ class CreateFactoryItemsTable extends Migration
             $table->unsignedInteger('category_id');
             $table->unsignedInteger('subcategory_id');
             $table->integer('purchase_price')->default(0);
-            $table->integer('instock_qty')->default(0);
-            $table->integer('reserved_qty')->default(0);
+            $table->float('instock_qty')->default(0);
+            $table->float('reserved_qty')->default(0);
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
         });
