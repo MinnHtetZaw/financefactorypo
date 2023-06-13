@@ -142,12 +142,12 @@
                                                         <select class="form-control" name="bank_acc" id="bank_acc" class="bk">
                                                             <option value="">Select Bank Account</option>
 
-                                                           @foreach ($account as $acc)
-                                                            {{-- @if ($acc->account_name != "Inventory") --}}
+                                                           @foreach ($bank_account as $acc)
 
-                                                            <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->curr->name}}</option>
 
-                                                            {{-- @endif --}}
+                                                            <option value={{$acc->id}}>{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->currency->name}}</option>
+
+
                                                            @endforeach
                                                         </select>
                                                     </div>
@@ -158,11 +158,11 @@
                                                         <select class="form-control" name="cash_acc" id="cash_acc">
                                                             <option value="">Select Cash Account</option>
                                                            @foreach ($cash_account as $acc)
-                                                           {{-- @if ($acc->account_name != "Inventory") --}}
 
-                                                            <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->curr->name}}</option>
 
-                                                            {{-- @endif --}}
+                                                            <option value={{$acc->id}}>{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->currency->name}}</option>
+
+
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -173,7 +173,7 @@
                                                                 <select class="form-control" name="exp_acc">
                                                                     <option value="">Select Expense Account</option>
                                                                    @foreach ($exp_account as $acc)
-                                                                    <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->curr->name}}</option>
+                                                                    <option value={{$acc->id}}>{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->currency->name}}</option>
                                                                    @endforeach
 
                                                                 </select>

@@ -623,9 +623,13 @@ return view('example_profile');
 
     Route::post('heading_search',[AccountController::class,'searchHeading']);
     Route::post('subheading_search',[AccountController::class,'searchSubHeading']);
+
     Route::post('store_accounting',[AccountController::class,'storeAccounting'])->name('store_accounting');
     Route::get('AccountList', [AccountController::class,'ShowAccountList'])->name('account_list');
-    Route::get('incoming',[AccountController::class,'incoming'])->name('incoming');
+    Route::post('update_accounting/{id}',[AccountController::class,'update_accounting'])->name('update_accounting');
+
     Route::get('bank_list', [AccountController::class,'bank_list'])->name('bank_list');
     Route::post('store_bank', [AccountController::class,'store_bank'])->name('store_bank');
-    Route::post('update_accounting/{id}',[AccountController::class,'update_accounting'])->name('update_accounting');
+
+    Route::get('incoming',[AccountController::class,'incoming'])->name('incoming');
+    Route::get('expense', [AccountController::class,'expense'])->name('expense');

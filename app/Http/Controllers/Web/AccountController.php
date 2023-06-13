@@ -173,17 +173,36 @@ class AccountController extends Controller
    protected function incoming()
    {
        $expense_tran = Transaction::where('expense_flag',1)->get();
-       // dd($expense_tran);
+
        $bank_cash_tran = Transaction::where('expense_flag',2)->get();
-        $account = Accounting::where('account_type',4)->get();
-        $cash_account = Accounting::where('account_type',3)->get();
-        $inc_account = Accounting::where('account_type',6)
-                       ->orWhere('account_type',14)
-                       ->get();
+
+
+        $cash_account = Accounting::where('subheading_id',7)->get();
+
+        $bank_account = Accounting::where('subheading_id',19)->get();
+        $inc_account = Accounting::where('subheading_id',6)->get();
 
        $currency = Currency::all();
 
-       return view('Admin.incoming',compact('currency','account','cash_account','inc_account','expense_tran','bank_cash_tran','saleproject'));
+       return view('Admin.incoming',compact('currency','bank_account','cash_account','inc_account','expense_tran','bank_cash_tran'));
+   }
+
+   protected function expense()
+   {
+
+       $expense_tran = Transaction::where('expense_flag',1)->get();
+
+       $bank_cash_tran = Transaction::where('expense_flag',2)->get();
+
+        $bank_account = Accounting::where('subheading_id',19)->get();
+        $cash_account = Accounting::where('subheading_id',7)->get();
+
+        $subheading = SubHeading::where('heading_id',7)->pluck('id');
+
+        $exp_account = Accounting::wherein('subheading_id',$subheading)->get();
+        $currency = Currency::all();
+
+       return view('Admin.expense',compact('currency','bank_account','expense_tran','bank_cash_tran','exp_account','cash_account'));
    }
 
    protected function bank_list()
@@ -202,8 +221,9 @@ class AccountController extends Controller
         $acc = Accounting::create([
             'account_code' =>$request->acc_code,
             'account_name' => $request->acc_name,
-            'subheading_id' =>4,
+            'subheading_id' =>19,
             'balance' => $request->current_balance,
+            'currency_id'=>4
         ]);
         Bank::create([
             'account_id' => $acc->id,

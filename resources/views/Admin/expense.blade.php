@@ -38,8 +38,6 @@
           <div class="row justify-content-between">
 
               <label class="">Expense Transaction List<span class="float-right">	<button type="button" data-toggle="modal" data-target="#add_expenses" class="btn btn-primary" onclick="hide_bank_acc()"><i class="fas fa-plus"></i> Add Expense</button>
-                <a href="{{route('expense_type')}}" class="btn btn-primary"> Expense Type</a></span></label>
-
 
           </div>
 
@@ -204,9 +202,9 @@
                                 <label class="control-label">Bank Account</label>
                                 <select class="form-control" name="bank_acc" id="bank_acc" class="bk">
                                     <option value="">Select Bank Account</option>
-                                   @foreach ($account as $acc)
+                                   @foreach ($bank_account as $acc)
 
-                                    <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->curr->name}}</option>
+                                    <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->currency->name}}</option>
                                    @endforeach
                                 </select>
                             </div>
@@ -218,7 +216,7 @@
                                     <option value="">Select Cash Account</option>
                                    @foreach ($cash_account as $acc)
 
-                                    <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->curr->name}}</option>
+                                    <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->currency->name}}</option>
                                    @endforeach
                                 </select>
                             </div>
@@ -229,7 +227,7 @@
                                         <select class="form-control" name="exp_acc">
                                             <option value="">Select Expense Account</option>
                                            @foreach ($exp_account as $acc)
-                                            <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->curr->name}}</option>
+                                            <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->currency->name}}</option>
                                            @endforeach
 
                                         </select>
@@ -277,33 +275,7 @@
                                         <input type="text" class="form-control" name="remark">
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="name">Projected Related</label>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="yes_no" id="yes" value="1" onclick="show_project()">
-                                                <label class="form-check-label" for="bank">Yes</label>
-                                              </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                              <div class="form-check form-check-inline">
 
-                                                <input class="form-check-input" type="radio" name="yes_no" id="no" value="2" onclick="hide_project()">
-                                                <label class="form-check-label" for="cash">No</label>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" id="proj">
-                                        <label for="name">Project</label>
-                                        <select class="custom-select" name="project_id">
-                                            <option value="0">Choose Project Name</option>
-                                            @foreach($saleproject as $salepro)
-                                            <option value="{{$salepro->id}}"></option>
-                                            @endforeach
-                                        </select>
-                                    </div>
                                         <div class="row">
                                             <div class="mt-4 col-md-9">
                                                 <button type="submit" class="btn btn-success">Submit</button>
@@ -321,20 +293,6 @@
 
 <script>
 
-
-
-// $('#item_table').DataTable( {
-
-// "paging":   true,
-// "ordering": true,
-// "info":     true
-
-// });
-
-// $('#slimtest2').slimScroll({
-//         color: '#00f',
-//         height: '600px'
-//     });
 
 function convert(val){
 

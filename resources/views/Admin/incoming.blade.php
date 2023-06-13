@@ -36,7 +36,7 @@
           <div class="card-header">
           <div class="row justify-content-between">
               <label class="">Income Transaction List<span class="float-right">	<button type="button" data-toggle="modal" data-target="#add_incomes" class="btn btn-primary" onclick="hide_bank_acc()"><i class="fas fa-plus"></i> Add Income</button>
-                <a href="{{route('incoming_type')}}" class="btn btn-primary"> Income Type</a></span></label>
+
 
           </div>
           <div class="row" id="trial_balance">
@@ -187,8 +187,8 @@
 
                         <select class="form-control" name="bank_acc" id="bank_acc">
                             <option value="">Select Bank Account</option>
-                           @foreach ($account as $acc)
-                            <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->curr->name}}</option>
+                           @foreach ($bank_account as $acc)
+                            <option value={{$acc->id}}>{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->currency->name}}</option>
 
                            @endforeach
                         </select>
@@ -200,7 +200,7 @@
                         <select class="form-control" name="cash_acc" id="cash_acc">
                             <option value="">Select Cash Account</option>
                            @foreach ($cash_account as $acc)
-                            <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->curr->name}}</option>
+                            <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->currency->name}}</option>
 
                            @endforeach
                         </select>
@@ -213,7 +213,7 @@
                                     <option value="">Select Incoming Account</option>
                                    @foreach ($inc_account as $acc)
 
-                                    <option value="{{$acc->id}}">{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->curr->name}}</option>
+                                    <option value={{$acc->id}}>{{$acc->account_name}}-{{$acc->account_code}}-{{$acc->currency->name}}</option>
 
                                    @endforeach
                                 </select>
@@ -249,41 +249,11 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label">Voucher Number</label>
-                                <input type="text" class="form-control" name="voucher_id">
-                            </div>
-
-                            <div class="form-group">
                                 <label class="control-label">Remark</label>
                                 <input type="text" class="form-control" name="remark">
                             </div>
-                            <div class="form-group">
-                                <label for="name">Projected Related</label>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="yes_no" id="yes" value="1" onclick="show_project()">
-                                        <label class="form-check-label" for="bank">Yes</label>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                      <div class="form-check form-check-inline">
 
-                                        <input class="form-check-input" type="radio" name="yes_no" id="no" value="2" onclick="hide_project()">
-                                        <label class="form-check-label" for="cash">No</label>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group" id="proj">
-                                <label for="name">Project</label>
-                                <select class="custom-select" name="project_id">
-                                    <option value="0">Choose Project Name</option>
-                                    @foreach($saleproject as $salepro)
-                                    <option value="{{$salepro->id}}">{{$salepro->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+
 
                                 <div class="row">
                                     <div class="col-md-9 mt-4">
@@ -305,30 +275,19 @@
 @section('js')
 <script>
 
-// $('#item_table').DataTable( {
 
-// "paging":   true,
-// "ordering": true,
-// "info":     true
-
-// });
-
-// $('#slimtest2').slimScroll({
-//         color: '#00f',
-//         height: '600px'
-//     });
 function convert(val){
 
 var isChecked = $('#bank:checked').val()?true:false;
 if(isChecked){
-    // alert("bank");
+
     var bk_ch = $('#bank_acc').val();
-    // alert(bk_ch);
+
 }
 var isCheck = $('#cash:checked').val()?true:false;
 if(isCheck){
     var bk_ch = $('#cash_acc').val();
-    // alert(bk_ch);
+
 }
 $.ajax({
        type:'POST',
@@ -339,7 +298,7 @@ $.ajax({
         "bk_ch" : bk_ch,
         },
        success:function(data){
-        // alert(data.currency_id);
+
         if(data.convert.currency_id != val){
           if(data.convert.currency_id == 4 || val == 4){
             swal({
@@ -350,7 +309,7 @@ $.ajax({
                 .then((isConfirm) => {
 
                 if (isConfirm) {
-                    // alert('hello');
+
                    var amt =  $('#convert_amount').val();
                    if(val == 4 && data.convert.currency_id == 5){
                            var con_amt = amt * data.usd_rate.exchange_rate;
@@ -432,12 +391,12 @@ $.ajax({
 }
 
 function acc_code_search(){
-    // alert('hello');
+
     var code = $('#search_code').val();
     var debit = 0;
     var credit = 0;
     var balance =0;
-    // alert(code);
+
     $.ajax({
            type:'POST',
            url:'/ajax_search_code',
@@ -446,7 +405,7 @@ function acc_code_search(){
            "code":code,
             },
            success:function(data){
-            //    alert('hello');
+
             var html = "";
             var html2 = "";
 
@@ -464,8 +423,7 @@ function acc_code_search(){
                     </thead>
             `;
             $.each(data.code, function(i, v) {
-                // ${v.accounting.account_name}-${v.accounting.account_code}
-                // alert(v.remark);
+
                 if(v.type == "Debit"){
                     debit += v.amount;
                 }else{

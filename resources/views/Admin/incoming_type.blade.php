@@ -8,7 +8,7 @@
             <div class="card-header">
               <h3 class="card-title">Account List</h3>
 
-              <button id="" class="btn btn-primary float-right" data-toggle="modal" data-target="#new_account" onclick="hide_proj()"> <i class="fa fa-plus"></i> Create Accounting</button>
+              <button id="" class="btn btn-primary float-right" data-toggle="modal" data-target="#new_account"> <i class="fa fa-plus"></i> Create Accounting</button>
                 <div class="modal fade" id="new_account" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -39,15 +39,7 @@
                                 <option value="15">Other Receiable</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="name">Cost Center</label>
-                                <select class="custom-select border-info" name="cost_center">
-                                <option>Choose Cost Center Name</option>
-                                    @foreach($cost_centers as $cc)
-                                    <option value="{{$cc->id}}">{{$cc->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+
                             <div class="form-group">
                                 <label for="name">Balance</label>
                                 <input type="text" class="form-control border-info" name="balance">
@@ -61,33 +53,9 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="name">Projected Related</label>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="yes_no" id="yes" value="1" onclick="show_project()">
-                                        <label class="form-check-label text-info" for="bank">Yes</label>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                      <div class="form-check form-check-inline">
 
-                                        <input class="form-check-input" type="radio" name="yes_no" id="no" value="2" onclick="hide_project()">
-                                        <label class="form-check-label text-info" for="cash">No</label>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group" id="proj">
-                                <label for="name">Project</label>
-                                <select class="custom-select border-info" name="project_id">
-                                    <option value="0">Choose Project Name</option>
-                                    @foreach($saleproject as $salepro)
-                                    <option value="{{$salepro->id}}">{{$salepro->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -108,8 +76,7 @@
                     <th>No</th>
                     <th>Account Name</th>
                     <th>Account Code</th>
-                    <th>Project Name</th>
-                    <th>Related Project</th>
+
 
                   </tr>
                 </thead>
@@ -146,19 +113,6 @@
 @endsection
 
 <script>
-
-    function show_project(){
-        // alert('hello');
-        $('#proj').show();
-    }
-    function hide_project(){
-        // alert('hello');
-        $('#proj').hide();
-    }
-    function hide_proj(){
-        // alert('hello');
-        $('#proj').hide();
-    }
 
 
 </script>

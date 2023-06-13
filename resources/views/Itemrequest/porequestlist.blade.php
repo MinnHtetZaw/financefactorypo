@@ -21,6 +21,57 @@
         <h4 class="font-weight-normal text-black">Factory PO List @lang('lang.page')</h4>
     </div>
 </div>
+{{-- <div class="row justify-content-start">
+    <div class="col-8">
+       <div class="mb-4">
+            <div class="row">
+
+            @csrf
+                <div class="col-2">
+                    <label class="">@lang('lang.from')</label>
+                    <input type="date" name="from" id="from" class="form-control form-control-sm" onChange="setFrom(this.value)"  required>
+                </div>
+                <div class="col-2">
+                    <label class="">@lang('lang.to')</label>
+                    <input type="date" name="to" id="to" class="form-control form-control-sm" onChange="setTo(this.value)" required>
+                </div>
+
+                <div class="col-md-2 m-t-30">
+                    <button class="btn btn-sm rounded btn-outline-info" id="search_PO">
+                        <i class="fas fa-search mr-2"></i>Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+     <div class="col-md-4 mt-4">
+
+         <form id="exportForm" onsubmit="return exportForm()" method="get">
+             <div class="row">
+            <input type="hidden" name="export_from" id="export_from" class="form-control form-control-sm hidden" required>
+            <input type="hidden" name="export_to" id="export_to" class="form-control form-control-sm hidden" required>
+            <div class="col-3">
+                <select name="export_data_type" id="export_data_type" class="form-control form-control-sm select2" style="font-size: 12px;">
+                           <option value=1 selected>PoList</option>
+                           <option value=2 >Items</option>
+                   </select>
+
+           </div>
+
+            <div class="col-9">
+            <input type="submit" class="btn btn-sm rounded btn-outline-info col-4" value=" Export ">
+            </div>
+            </div>
+
+        </form>
+
+    </div>
+
+
+</div> --}}
+
 <div class="container mt-4" >
 <div class="row">
     <div class="col-12">

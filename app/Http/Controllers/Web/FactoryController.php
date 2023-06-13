@@ -12,6 +12,7 @@ use App\Purchase;
 use App\Supplier;
 use App\FactoryPo;
 use App\Accounting;
+use App\SubHeading;
 use App\FactoryItem;
 use App\SaleProject;
 use App\SubCategory;
@@ -127,16 +128,14 @@ class FactoryController extends Controller
 
 
 
-        $last_po = FactoryPo::count();
+        $last_po = FactoryPo::all()->last();
 
         if($last_po != null){
-            $po_code =  "FPR-" .date('y') . sprintf("%02s", (intval(date('m')))) .sprintf("%02s", ($last_po + 1));
+            $po_code =  "FPR-" .date('y') . sprintf("%02s", (intval(date('m')))) .sprintf("%02s", ($last_po->id + 1));
         }else{
             $po_code =  "FPR-" .date('y') . sprintf("%02s", (intval(date('m')))) .sprintf("%02s", 1);
         }
 
-
-    	// dd($salescustomers);
     	return view('Admin.newcreate_itemrequest',compact('po_code','items','categories','today_date','sub_categories'));
     }
 
@@ -320,9 +319,9 @@ class FactoryController extends Controller
 
         $supplier = Supplier::all();
 
-         $last_voucher = Purchase::count();
+         $last_voucher = Purchase::all()->last();
         if($last_voucher != null){
-            $purchase_number =  "PRN-" .date('y') . sprintf("%02s", (intval(date('m')) + 1)) . sprintf("%02s", ($last_voucher+ 1));
+            $purchase_number =  "PRN-" .date('y') . sprintf("%02s", (intval(date('m')) + 1)) . sprintf("%02s", ($last_voucher->id+ 1));
         }else{
             $purchase_number =  "PRN-" .date('y') . sprintf("%02s", (intval(date('m')) + 1)) .sprintf("%02s", 1);
         }
@@ -467,15 +466,19 @@ protected function storePurchaseHistory(Request $request){
 protected function getPurchaseHistory(Request $request){
 
     $purchase_lists = Purchase::all();
+    $subheading = SubHeading::where('heading_id',7)->pluck('id');
+
+    $exp_account = Accounting::wherein('subheading_id',$subheading)->get();
+
     // $expense_tran = Transaction::where('expense_flag',1)->get();
-     $account = Accounting::where('account_type',2)->get();
-     $cash_account = Accounting::where('account_type',2)->get();
-     $exp_account = Accounting::where('account_type',8)->get();
+     $bank_account = Accounting::where('subheading_id',19)->get();
+     $cash_account = Accounting::where('subheading_id',7)->get();
+
      $bank_cash_tran = Transaction::get();
-     $saleproject = SaleProject::all();
+
      $currency = Currency::all();
 
-    return view('Purchase.purchase_lists', compact('bank_cash_tran','purchase_lists','currency','saleproject','account','exp_account','cash_account'));
+    return view('Purchase.purchase_lists', compact('bank_cash_tran','purchase_lists','currency','bank_account','exp_account','cash_account'));
 }
 
 protected function getPurchaseHistoryDetails($id){
