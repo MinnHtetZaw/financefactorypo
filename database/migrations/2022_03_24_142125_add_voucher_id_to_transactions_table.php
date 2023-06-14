@@ -15,7 +15,7 @@ class AddVoucherIdToTransactionsTable extends Migration
     {
         Schema::table('transactions', function (Blueprint $table) {
             //
-            $table->string('voucher_id');
+            $table->string('expense_id');
         });
     }
 

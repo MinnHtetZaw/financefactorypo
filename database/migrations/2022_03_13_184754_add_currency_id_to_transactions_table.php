@@ -15,7 +15,7 @@ class AddCurrencyIdToTransactionsTable extends Migration
     {
         Schema::table('transactions', function (Blueprint $table) {
             //
-            $table->bigInteger('currency_id');
+            $table->unsignedBigInteger('currency_id');
         });
     }
 

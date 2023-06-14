@@ -20,8 +20,7 @@ class CreateTransactionsTable extends Migration
             $table->date('date');
             $table->string('remark');
             $table->integer('type')->default(0)->comment('1-debit, 2 - credit');
-            $table->integer('related_project_flag')->default(0);
-            $table->unsignedBigInteger('project_id')->nullable();
+            $table->unsignedBigInteger('purchase_id')->nullable();
             $table->unsignedBigInteger('related_transaction_id')->nullable();
             $table->integer('type_flag');
             $table->timestamps();

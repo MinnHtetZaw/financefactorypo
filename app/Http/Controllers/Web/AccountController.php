@@ -240,4 +240,11 @@ class AccountController extends Controller
         alert()->success('Added Bank Successfully!!!');
         return redirect()->back();
     }
+
+    public function getTransactionList()
+    {
+        $transaction = Transaction::all();
+
+        return view('Admin.transaction_list',compact('transaction'));
+    }
 }

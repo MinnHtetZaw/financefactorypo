@@ -76,7 +76,7 @@
 
 		                                <th>@lang('lang.item') @lang('lang.name')</th>
 		                                <th>@lang('lang.purchase_qty')</th>
-		                                <th>Arrived Quantity</th>
+		                                <th>Arrived Input Quantity</th>
                                         <th>Remaining Quantity</th>
 		                                <th>@lang('lang.purchase_price')</th>
 		                                <th>@lang('lang.sub_total')</th>
@@ -114,14 +114,7 @@
 
                                             </td>
                                             <td class="w-25">
-                                                <input type="number" class="form-control w-100 text-black"
-
-                                                @if ($purchase->type_flag === 2)
-                                                value= "0"
-                                                @elseif ($purchase->type_flag === 1)
-                                                value="{{$unit->pivot->remaining_amount}}"
-                                                @endif
-                                            disabled>
+                                                <input type="number" class="form-control w-100 text-black" value="{{$unit->pivot->remaining_amount}}" disabled>
                                             </td>
 
 		                                	<td>{{$unit->pivot->price}}</td>
@@ -174,9 +167,12 @@
 												data-purchaseid="{{$purchase->id}}" id="purchaseinput{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->pivot->quantity}}" disabled>
 
 											</td>
+                                            <td class="w-25">
+                                                <input type="number" class="form-control w-100 arriveinput text-black" data-arriveinput="arriveinput{{$unit->id}}"  data-purchaseid="{{$purchase->id}}" id="arriveinput{{$unit->id}}" data-id="{{$unit->id}}" value="0" disabled>
 
+                                            </td>
 											<td class="w-25">
-											    <input type="number" class="form-control w-100 arriveinput text-black" data-arriveinput="arriveinput{{$unit->id}}"  data-purchaseid="{{$purchase->id}}" id="arriveinput{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->pivot->quantity}}" disabled>
+											    <input type="number" class="form-control w-100 arriveinput text-black" data-arriveinput="arriveinput{{$unit->id}}"  data-purchaseid="{{$purchase->id}}" id="arriveinput{{$unit->id}}" data-id="{{$unit->id}}" value="{{$unit->pivot->remaining_amount}}" disabled>
 
 											</td>
 
@@ -199,6 +195,8 @@
 
             	</div>
 
+                @if($purchase->type_flag ==1)
+
             	<div class="row">
             	        <div class="col-md-1 offset-5">
 
@@ -206,7 +204,7 @@
 					</div>
 
 
-            		    <div class="col-md-1 ml-2">
+            		<div class="col-md-1 ml-2">
 						{{-- <form action="{{route('purchase_delete')}}" method="POST">
 							@csrf
 							<input type="hidden" name="purchase_id" value="{{$purchase->id}}">
@@ -215,8 +213,8 @@
 						</form> --}}
 					</div>
 
-
             		</div>
+                @endif
 
             </div>
         </div>

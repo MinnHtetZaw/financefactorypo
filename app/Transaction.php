@@ -14,21 +14,27 @@ class Transaction extends Model
         'date',
         'remark',
         'type',
-        'related_project_flag',
         'purchase_id',
         'related_transaction_id',
         'type_flag',
         'expense_flag',
         'all_flag',
         'currency_id',
-        'voucher_id'
+        'expense_id'
     ];
     public function accounting(){
 		return $this->belongsTo('App\Accounting','account_id');
 	}
-    public function project(){
+    public function purchase(){
 		return $this->belongsTo('App\Purchase','purchase_id');
 	}
+    public function expense(){
+        return $this->belongsTo(Expense::class,'expense_id');
+    }
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class,'currency_id');
+    }
     public function getTypeAttribute($type) {
         switch ($type) {
             case '1':

@@ -90,6 +90,7 @@
                                                             </tr>
                                                             @endif
                                                             @endforeach
+
                                                         </tbody>
                                                     </table>
 
@@ -203,17 +204,11 @@
                                                                 </div>
                                                             </div>
 
-
                                                             <div class="form-group">
                                                                 <label class="control-label">Date</label>
 
                                                                 <input type="date" class="form-control"  name="date">
 
-                                                            </div>
-
-                                                            <div class="form-group">
-                                                                <label class="control-label">Voucher Number</label>
-                                                                <input type="text" class="form-control" name="voucher_id">
                                                             </div>
 
                                                             <div class="form-group">

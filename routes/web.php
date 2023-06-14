@@ -633,3 +633,5 @@ return view('example_profile');
 
     Route::get('incoming',[AccountController::class,'incoming'])->name('incoming');
     Route::get('expense', [AccountController::class,'expense'])->name('expense');
+
+    Route::get('transaction',[AccountController::class,'getTransactionList'])->name('transaction');

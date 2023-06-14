@@ -128,7 +128,7 @@
                                                 <div style="font-size:15px;">{{$transa->amount}}</div>
 
                                             </div>
-                                          
+
                                             @endif
                                             @endif
                                            @endforeach
