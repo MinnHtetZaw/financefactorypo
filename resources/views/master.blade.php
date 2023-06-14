@@ -397,8 +397,10 @@
                   </p>
                 </a>
               </li>
-                </ul>
-              </li>
+              </ul>
+
+
+            </li>
 
 
           <li class="nav-item">
@@ -430,6 +432,14 @@
               <i class="nav-icon far fa-address-card"></i>
               <p>
                 Sub Heading
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('transaction')}}" class="nav-link">
+              <i class="nav-icon far fa-address-card"></i>
+              <p>
+               Transaction List
               </p>
             </a>
           </li>

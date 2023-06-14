@@ -247,4 +247,17 @@ class AccountController extends Controller
 
         return view('Admin.transaction_list',compact('transaction'));
     }
+
+    public function ajaxTransactionFilter(Request $request){
+
+
+        $from = $request->from;
+        $to = $request->to;
+
+        $date_filter = Transaction::whereBetween('date',[$from,$to])->with('accounting')->get();
+
+        return response()->json([
+            'date_filter' => $date_filter
+       ]);
+    }
 }

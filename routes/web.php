@@ -635,3 +635,4 @@ return view('example_profile');
     Route::get('expense', [AccountController::class,'expense'])->name('expense');
 
     Route::get('transaction',[AccountController::class,'getTransactionList'])->name('transaction');
+    Route::post('transaction_filter', [AccountController::class,'ajaxTransactionFilter'])->name('transaction_filter');
