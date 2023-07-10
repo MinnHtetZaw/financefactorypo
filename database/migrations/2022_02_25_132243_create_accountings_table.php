@@ -18,6 +18,7 @@ class CreateAccountingsTable extends Migration
             $table->string('account_code');
             $table->string('account_name');
             $table->unsignedBigInteger('subheading_id');
+            $table->tinyInteger('nature')->nullable();
             $table->unsignedBigInteger('currency_id');
             $table->integer('balance');
             $table->timestamps();

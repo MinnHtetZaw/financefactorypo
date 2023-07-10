@@ -55,7 +55,6 @@
                                 <thead class="bg-info">
                                 <tr class="text-center">
                                 <th class="text-white">No</th>
-                                <th class="text-white">ID</th>
                                 <th class="text-white">Name</th>
                                 <th class="text-white">Phone</th>
                                 <th class="text-white">Credit Amount</th>
@@ -69,7 +68,6 @@
                                 @foreach($supplier_credit_list as $sup)
                                     <tr class="text-center">
                                         <td>{{$j++}}</td>
-                                        <td>{{$sup->id}}</td>
                                         <td>{{$sup->name}}</td>
                                         <td>{{$sup->phone_number}}</td>
                                         <td>{{$sup->credit_amount}}</td>

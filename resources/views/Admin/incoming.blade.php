@@ -58,7 +58,6 @@
                                 <th class="text-center">Type</th>
                                 <th class="text-center">Date</th>
                                 <th class="text-center">Amount</th>
-                                <th class="text-center">Voucher No</th>
                                 <th class="text-center">Remark</th>
                                 <th class="text-center">Action</th>
                             </tr>
@@ -66,7 +65,7 @@
 
                         <tbody>
                             <?php $i = 1; ?>
-                            @foreach ($expense_tran as $trans)
+                            @foreach ($incoming_tran as $trans)
                             @if($trans->type_flag == 3)
                             <tr>
                             <td style="font-size:15px;" class="text-center">{{$i++}}</td>
@@ -74,9 +73,11 @@
                             <td style="font-size:15px;" class="text-center">{{$trans->type}}</td>
                             <td style="font-size:15px;" class="text-center">{{$trans->date}}</td>
                             <td style="font-size:15px;" class="text-center">{{$trans->amount}}</td>
-                            <td style="font-size:15px;" class="text-center">{{$trans->voucher_id}}</td>
                             <td style="font-size:15px;" class="text-center">{{$trans->remark}}</td>
-                            <td class="text-center"><a class="btn btn-primary btn-sm " data-toggle="collapse" href="#related{{$trans->id}}" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Related</a></td>
+                            <td class="text-center">
+                                <a class="btn btn-primary btn-sm " data-toggle="collapse" href="#related{{$trans->id}}" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Related</a>
+                                <a href="{{route('incoming_delete',$trans->id)}}" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
                             </tr>
 
                             <tr>
@@ -118,19 +119,6 @@
                                                 <div style="font-size:15px;">{{$transa->amount}}</div>
 
                                             </div>
-                                            @if ($transa->project_id == null)
-                                            <div class="col-md-2">
-                                                <label style="font-size:15px;" class="text-info">Projected Related</label>
-                                                <div style="font-size:15px;">No</div>
-
-                                            </div>
-                                            @else
-                                            <div class="col-md-2">
-                                                <label style="font-size:15px;" class="text-info">Projected Related</label>
-                                                <div style="font-size:15px;">Yes</div>
-
-                                            </div>
-                                            @endif
 
                                             @endif
                                             @endif
@@ -209,7 +197,7 @@
 
                             <div class="form-group mt-3">
                                 <label class="control-label">Incoming Account</label>
-                                <select class="form-control" name="exp_acc">
+                                <select class="form-control" name="incoming_acc">
                                     <option value="">Select Incoming Account</option>
                                    @foreach ($inc_account as $acc)
 

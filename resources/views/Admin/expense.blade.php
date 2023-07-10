@@ -85,7 +85,10 @@
                             <td style="font-size:15px;" class="text-center">{{$trans->amount}}</td>
                             {{-- <td style="font-size:15px;" class="text-center">{{$trans->voucher_id}}</td> --}}
                             <td style="font-size:15px;" class="text-center">{{$trans->remark}}</td>
-                            <td class="text-center"><a class="btn btn-primary btn-sm " data-toggle="collapse" href="#related{{$trans->id}}" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Related</a></td>
+                            <td class="text-center">
+                                <a class="btn btn-primary btn-sm " data-toggle="collapse" href="#related{{$trans->id}}" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Related</a>
+                                <a href="{{route('expense_delete',$trans->id)}}" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
                             </tr>
 
                             <tr>
@@ -128,7 +131,7 @@
                                                 <div style="font-size:15px;">{{$transa->amount}}</div>
 
                                             </div>
-                                          
+
                                             @endif
                                             @endif
                                            @endforeach

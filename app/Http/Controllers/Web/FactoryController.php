@@ -64,38 +64,11 @@ class FactoryController extends Controller
             return redirect()->back();
         }
 
-        // $user_code = $request->session()->get('user')->user_code;
-
-        // if (isset($request->customer_console)) {
-
-        // 	$customer_console = 0;   //Customer ko pya mar
-        // }else{
-
-        // 	$customer_console = 1;	//Customer ko ma pya
-        // }
-
-        // if ($request->hasfile('photo_path')) {
-
-		// 	$image = $request->file('photo_path');
-
-		// 	$name = $image->getClientOriginalName();
-
-		// 	$photo_path =  time()."-".$name;
-
-		// 	$image->move(public_path() . '/photo/Item', $photo_path);
-		// }
-		// else{
-
-		// 	$photo_path = "default.jpg";
-
-		// }
-
         try {
 
             $item = FactoryItem::create([
                 'item_code' => $request->item_code,
                 'item_name' => $request->item_name,
-                // 'created_by' => $user_code,
                 'category_id' => $request->category_id,
                 'subcategory_id' => $request->sub_category_id,
                 'purchase_price' => $request->purchase_price,
@@ -144,7 +117,7 @@ class FactoryController extends Controller
         $category_id = $request->category_id;
         $subcategory_id = $request->subcategory_id;
         ini_set('max_execution_time',300);
-//        return $request;
+
         $items = FactoryItem::where("category_id",$category_id)->where("subcategory_id",$subcategory_id)->get();
 
         return response()->json($items);
@@ -644,9 +617,6 @@ public function storeFactoryPoExpense(Request $request){
 
 
         $bc_acc = $request->cash_acc;
-
-
-
         $acc_cash = Accounting::find($bc_acc);
         $acc_cash->balance -= $con_amt;
         $acc_cash->save();
@@ -654,8 +624,6 @@ public function storeFactoryPoExpense(Request $request){
         $exp_cash = Accounting::find($request->exp_acc);
         $exp_cash->balance += $request->amount;
         $exp_cash->save();
-
-
 
     }
     else if($request->cash_acc == null){
@@ -723,8 +691,6 @@ public function storeFactoryPoExpense(Request $request){
         }
 
         $bc_acc = $request->bank_acc;
-
-
 
         $acc_bank = Accounting::find($bc_acc);
         $acc_bank->balance -= $con_amt;

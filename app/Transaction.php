@@ -20,7 +20,9 @@ class Transaction extends Model
         'expense_flag',
         'all_flag',
         'currency_id',
-        'expense_id'
+        'expense_id',
+        'incoming_flag',
+        'incoming_id'
     ];
     public function accounting(){
 		return $this->belongsTo('App\Accounting','account_id');
@@ -30,6 +32,10 @@ class Transaction extends Model
 	}
     public function expense(){
         return $this->belongsTo(Expense::class,'expense_id');
+    }
+    public function incoming()
+    {
+        return $this->belongsTo(Incoming::class,'incoming_id');
     }
     public function currency()
     {

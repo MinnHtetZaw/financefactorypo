@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Accounting extends Model
 {
     //
-    protected $guarded = [];
 
     protected $fillable = [
         'account_code',
         'account_name',
         'subheading_id',
         'balance',
+        'nature',
         'currency_id',
-    ];
 
+    ];
 
     public function subheading(){
     	return $this->belongsTo(SubHeading::class,'subheading_id');

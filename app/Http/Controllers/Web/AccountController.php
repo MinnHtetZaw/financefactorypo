@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Web;
 
 use App\Bank;
+use App\Expense;
 use App\Currency;
+use App\Incoming;
 use App\Accounting;
 use App\SubHeading;
 use App\HeadingType;
@@ -152,6 +154,7 @@ class AccountController extends Controller
             'subheading_id' => $request->subheading_id,
             'currency_id' =>$request->currency,
             'balance' => $request->balance,
+            'nature'=> $request->nature
            ]);
 
         return back();
@@ -165,6 +168,7 @@ class AccountController extends Controller
     $update->subheading_id = $request->subheading_id;
     $update->currency_id = $request->currency;
     $update->balance = $request->balance;
+    $update->nature = $request->nature;
     $update->save();
 
         return back();
@@ -172,19 +176,18 @@ class AccountController extends Controller
 
    protected function incoming()
    {
-       $expense_tran = Transaction::where('expense_flag',1)->get();
+       $incoming_tran = Transaction::where('incoming_flag',1)->get();
 
-       $bank_cash_tran = Transaction::where('expense_flag',2)->get();
-
+       $bank_cash_tran = Transaction::where('incoming_flag',2)->get();
 
         $cash_account = Accounting::where('subheading_id',7)->get();
-
         $bank_account = Accounting::where('subheading_id',19)->get();
+
         $inc_account = Accounting::where('subheading_id',6)->get();
 
        $currency = Currency::all();
 
-       return view('Admin.incoming',compact('currency','bank_account','cash_account','inc_account','expense_tran','bank_cash_tran'));
+       return view('Admin.incoming',compact('currency','bank_account','cash_account','inc_account','incoming_tran','bank_cash_tran'));
    }
 
    protected function expense()
@@ -200,9 +203,26 @@ class AccountController extends Controller
         $subheading = SubHeading::where('heading_id',7)->pluck('id');
 
         $exp_account = Accounting::wherein('subheading_id',$subheading)->get();
+
         $currency = Currency::all();
 
        return view('Admin.expense',compact('currency','bank_account','expense_tran','bank_cash_tran','exp_account','cash_account'));
+   }
+
+   public function expenseDelete($id)
+   {
+    $trans = Transaction::find($id);
+    Expense::destroy($trans->expense_id);
+    Transaction::destroy($id);
+    return back();
+   }
+
+   public function incomingDelete($id)
+   {
+    $trans = Transaction::find($id);
+    Incoming::destroy($trans->incoming_id);
+    Transaction::destroy($id);
+    return back();
    }
 
    protected function bank_list()

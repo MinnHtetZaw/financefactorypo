@@ -289,36 +289,31 @@ class TenderGeneralController extends Controller
         alert()->success('Added Transaction Successfully!!!');
         return redirect()->back();
     }
-    
-    protected function store_incoming(Request $request){
-        // dd($request->all());
 
-        $exp = Incoming::create([
-            // 'type' => $request->type,
+    protected function store_incoming(Request $request){
+
+
+        $incoming = Incoming::create([
             'amount' => $request->amount,
             'remark' => $request->remark,
             'date' => $request->date,
         ]);
 
         $tran1 = Transaction::create([
-            'account_id' =>$request->exp_acc ,
-            'type' => 1,
+            'account_id' =>$request->incoming_acc,
+            'type' => 1, // debit
             'amount' => $request->amount,
             'remark' => $request->remark,
             'date' => $request->date,
-            'related_project_flag' =>2,
-            'type_flag' =>3,
-            'expense_flag' => 1,
-            'project_id' => $request->project_id,
+            'type_flag' =>3, // income debit type
             'currency_id' => $request->currency,
-
-            'voucher_id'  => $request->voucher_id,
-
             'all_flag' =>3,
+            'incoming_flag'=>1,
+            'incoming_id'=>$incoming->id
         ]);
         if($request->bank_acc == null){
             $amt = Accounting::find( $request->cash_acc);
-            // dd($amt->currency_id);
+
             $usd_rate = Currency::find(5);
             $euro_rate = Currency::find(6);
             $sgp_rate = Currency::find(9);
@@ -379,28 +374,49 @@ class TenderGeneralController extends Controller
                 $con_amt = $request->amount;
             }
             $bc_acc = $request->cash_acc;
-            $cash = Cash::where('account_id',$bc_acc)->first();
-            $cash->amount -=  $con_amt;
-            $cash->save();
+
             $acc_cash = Accounting::find($bc_acc);
-            $acc_cash->amount -= $con_amt;
-
-
+            $acc_cash->balance -= $con_amt;
             $acc_cash->save();
-            $exp_cash = Accounting::find($request->exp_acc);
-            $exp_cash->amount += $request->amount;
-            $exp_cash->save();
+
+            $incoming_cash = Accounting::find($request->incoming_acc);
+            $incoming_cash->balance += $request->amount;
+            $incoming_cash->save();
         }
         else if($request->cash_acc == null){
             $amt = Accounting::find($request->bank_acc);
-            // dd($amt->currency_id);
             $usd_rate = Currency::find(5);
             $euro_rate = Currency::find(6);
+            $sgp_rate = Currency::find(9);
+            $jpn_rate = Currency::find(10);
+            $chn_rate = Currency::find(11);
+            $idn_rate = Currency::find(12);
+            $mls_rate = Currency::find(13);
+            $thai_rate = Currency::find(14);
+
             if($amt->currency_id == 4 && $request->currency == 5){
                 $con_amt = $request->amount * $usd_rate->exchange_rate;
             }
             else if($amt->currency_id == 4 && $request->currency == 6){
                 $con_amt = $request->amount * $euro_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 4 && $request->currency == 9){
+                $con_amt = $request->amount * $sgp_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 4 && $request->currency == 10){
+                $con_amt = $request->amount * $jpn_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 4 && $request->currency == 11){
+                $con_amt = $request->amount * $chn_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 4 && $request->currency == 12){
+                $con_amt = $request->amount * $idn_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 4 && $request->currency == 13){
+                $con_amt = $request->amount * $mls_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 4 && $request->currency == 14){
+                $con_amt = $request->amount * $thai_rate->exchange_rate;
             }
             else if($amt->currency_id == 5 && $request->currency == 4){
                 $con_amt = $request->amount / $usd_rate->exchange_rate;
@@ -408,40 +424,53 @@ class TenderGeneralController extends Controller
             else if($amt->currency_id == 6 && $request->currency == 4){
                 $con_amt = $request->amount / $euro_rate->exchange_rate;
             }
+            else if($amt->currency_id == 9 && $request->currency == 4){
+                $con_amt = $request->amount / $sgp_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 10 && $request->currency == 4){
+                $con_amt = $request->amount / $jpn_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 11 && $request->currency == 4){
+                $con_amt = $request->amount / $chn_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 12 && $request->currency == 4){
+                $con_amt = $request->amount / $idn_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 13 && $request->currency == 4){
+                $con_amt = $request->amount / $mls_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 14 && $request->currency == 4){
+                $con_amt = $request->amount / $thai_rate->exchange_rate;
+            }
             else{
                 $con_amt = $request->amount;
             }
 
             $bc_acc = $request->bank_acc;
+
             $bank = Bank::where('account_id',$bc_acc)->first();
-            // dd($bc_acc);
             $bank->balance -=  $con_amt;
             $bank->save();
+
             $acc_bank = Accounting::find($bc_acc);
-            $acc_bank->amount -= $con_amt;
+            $acc_bank->balance -= $con_amt;
             $acc_bank->save();
-            $exp_bank = Accounting::find($request->exp_acc);
-            $exp_bank->amount += $request->amount;
-            $exp_bank->save();
+
+            $incoming_bank = Accounting::find($request->incoming_acc);
+            $incoming_bank->balance += $request->amount;
+            $incoming_bank->save();
         }
         $tran = Transaction::create([
             'account_id' => $bc_acc,
-            'type' => 1,
-
+            'type' => 2,
             'amount' => $con_amt,
-
             'remark' => $request->remark,
             'date' => $request->date,
-            'related_project_flag' =>2,
             'type_flag' =>4,
-            'expense_flag' => 2,
-            'project_id' => $request->project_id,
+            'incoming_flag' => 2,
             'currency_id' => $request->currency,
-
-            'voucher_id'  => $request->voucher_id,
-
             'all_flag' =>3,
-
+            'incoming_id'=>$incoming->id
         ]);
 
         $tran1->related_transaction_id = $tran->id;
@@ -491,10 +520,9 @@ class TenderGeneralController extends Controller
 
     protected function store_expense(Request $request)
     {
-        // dd($request->currency);
 
        $exp = Expense::create([
-            'type' => $request->type,
+
             'amount' => $request->amount,
             'remark' => $request->remark,
             'date' => $request->date,
@@ -506,20 +534,15 @@ class TenderGeneralController extends Controller
             'amount' => $request->amount,
             'remark' => $request->remark,
             'date' => $request->date,
-            'related_project_flag' =>2,
             'type_flag' =>1,
             'expense_flag' => 1,
-            'project_id' => $request->project_id,
             'currency_id' => $request->currency,
-
-            'voucher_id'  => $request->voucher_id,
-
             'all_flag'  =>4,
-
+            'expense_id'=> $exp->id
          ]);
         if($request->bank_acc == null){
             $amt = Accounting::find( $request->cash_acc);
-            // dd($amt->currency_id);
+
             $usd_rate = Currency::find(5);
             $euro_rate = Currency::find(6);
             $sgp_rate = Currency::find(9);
@@ -579,29 +602,52 @@ class TenderGeneralController extends Controller
             else{
                 $con_amt = $request->amount;
             }
-            // dd($con_amt);
+
             $bc_acc = $request->cash_acc;
-            $cash = Cash::where('account_id',$bc_acc)->first();
-            $cash->amount -= $con_amt;
-            // dd($cash->amount);
-            $cash->save();
+
             $acc_cash = Accounting::find($bc_acc);
-            $acc_cash->amount -= $con_amt;
+            $acc_cash->balance -= $con_amt;
             $acc_cash->save();
+
             $exp_cash = Accounting::find($request->exp_acc);
-            $exp_cash->amount += $request->amount;
+            $exp_cash->balance += $request->amount;
             $exp_cash->save();
         }
         else if($request->cash_acc == null){
             $amt = Accounting::find($request->bank_acc);
-            // dd($amt->currency_id);
+
             $usd_rate = Currency::find(5);
             $euro_rate = Currency::find(6);
+            $sgp_rate = Currency::find(9);
+            $jpn_rate = Currency::find(10);
+            $chn_rate = Currency::find(11);
+            $idn_rate = Currency::find(12);
+            $mls_rate = Currency::find(13);
+            $thai_rate = Currency::find(14);
+
             if($amt->currency_id == 4 && $request->currency == 5){
                 $con_amt = $request->amount * $usd_rate->exchange_rate;
             }
             else if($amt->currency_id == 4 && $request->currency == 6){
                 $con_amt = $request->amount * $euro_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 4 && $request->currency == 9){
+                $con_amt = $request->amount * $sgp_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 4 && $request->currency == 10){
+                $con_amt = $request->amount * $jpn_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 4 && $request->currency == 11){
+                $con_amt = $request->amount * $chn_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 4 && $request->currency == 12){
+                $con_amt = $request->amount * $idn_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 4 && $request->currency == 13){
+                $con_amt = $request->amount * $mls_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 4 && $request->currency == 14){
+                $con_amt = $request->amount * $thai_rate->exchange_rate;
             }
             else if($amt->currency_id == 5 && $request->currency == 4){
                 $con_amt = $request->amount / $usd_rate->exchange_rate;
@@ -609,43 +655,59 @@ class TenderGeneralController extends Controller
             else if($amt->currency_id == 6 && $request->currency == 4){
                 $con_amt = $request->amount / $euro_rate->exchange_rate;
             }
+            else if($amt->currency_id == 9 && $request->currency == 4){
+                $con_amt = $request->amount / $sgp_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 10 && $request->currency == 4){
+                $con_amt = $request->amount / $jpn_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 11 && $request->currency == 4){
+                $con_amt = $request->amount / $chn_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 12 && $request->currency == 4){
+                $con_amt = $request->amount / $idn_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 13 && $request->currency == 4){
+                $con_amt = $request->amount / $mls_rate->exchange_rate;
+            }
+            else if($amt->currency_id == 14 && $request->currency == 4){
+                $con_amt = $request->amount / $thai_rate->exchange_rate;
+            }
             else{
                 $con_amt = $request->amount;
             }
-            // dd($con_amt);
+
+
             $bc_acc = $request->bank_acc;
-            $bank = Bank::where('account_id',$bc_acc)->first();
-            // dd($bc_acc);
-            $bank->balance -=  $con_amt;
-            $bank->save();
+
             $acc_bank = Accounting::find($bc_acc);
-            $acc_bank->amount -= $con_amt;
+            $acc_bank->balance -= $con_amt;
             $acc_bank->save();
+
             $exp_bank = Accounting::find($request->exp_acc);
-            $exp_bank->amount += $request->amount;
+            $exp_bank->balance += $request->amount;
             $exp_bank->save();
+
+            $bank=Bank::where('account_id',$request->bank_acc)->first();
+            $bank->balance -= $con_amt;
+            $bank->save();
         }
+
         $tran = Transaction::create([
             'account_id' => $bc_acc,
             'type' => 2,
             'amount' => $con_amt,
             'remark' => $request->remark,
             'date' => $request->date,
-            'related_project_flag' =>2,
             'type_flag' =>2,
             'expense_flag' => 2,
-            'project_id' =>$request->project_id,
             'currency_id' => $request->currency,
-
-            'voucher_id'  => $request->voucher_id,
-
             'all_flag'  =>4,
-
+            'expense_id'=> $exp->id
         ]);
 
         $tran1->related_transaction_id = $tran->id;
         $tran1->save();
-
 
         alert('Added Transaction Successfully!!');
       return redirect()->back();
@@ -1157,21 +1219,7 @@ class TenderGeneralController extends Controller
     }
     protected function store_accounting_account(Request $request)
     {
-        // dd('hello');
-        // $validator = Validator::make($request->all(), [
-        //     'acc_code' => 'required',
-        //     'acc_name' => 'required',
-        //     'account_type_id' => 'required',
-        //     // 'project_id' => 'required',
 
-        // ]);
-
-        // if ($validator->fails()) {
-        //     return redirect('customer')
-        //                 ->withErrors($validator)
-        //                 ->withInput();
-        // }
-        // dd($request->all());
         if($request->project_id == 0)
         {
             if($request->no_yes != null){

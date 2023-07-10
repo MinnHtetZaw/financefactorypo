@@ -63,7 +63,16 @@
                                             <input type="text" class="form-control border-info" name="acc_name"
                                                 id="acc_name" placeholder="eg. Revenue Account">
                                         </div>
+                                        <div class="form-group">
+                                            <label for="name">Nature</label>
+                                            <select class="custom-select border-info form-control" name="nature">
 
+                                                <option hidden>Choose Nature</option>
+
+                                                    <option value='1'>Debit</option>
+                                                    <option value='2'>Credit</option>
+                                            </select>
+                                        </div>
                                         <div class="form-group">
                                             <label for="name">Balance</label>
                                             <input type="text" class="form-control border-info" name="balance">
@@ -106,6 +115,7 @@
                                 <th>Type</th>
                                 <th>Header</th>
                                 <th>SubHeader</th>
+                                <th>Nature</th>
                                 <th>Balance</th>
                                 <th>Currency</th>
                                 <th>Action</th>
@@ -122,6 +132,14 @@
                                     <td>{{ $acc->subheading->heading->accountingtype->type_name }}</td>
                                     <td>{{ $acc->subheading->heading->type_name }}</td>
                                     <td>{{ $acc->subheading->name }}</td>
+                                    <td>
+                                        @if ($acc->nature == 1)
+                                            Debit
+                                        @elseif ($acc->nature == 2)
+                                            Credit
+                                        @endif
+
+                                    </td>
                                     <td>{{ $acc->balance }}</td>
                                     <td>{{ $acc->currency->name }}</td>
 
@@ -195,7 +213,24 @@
                                 <label for="name">Account Name</label>
                                 <input type="text" class="form-control border-info" name="acc_name" value="{{$acc->account_name}}">
                             </div>
+                            <div class="form-group">
+                                <label for="name">Nature</label>
+                                <select class="custom-select border-info form-control" name="nature">
+                                    @if ($acc->nature == 1)
+                                    <option value={{$acc->nature}} selected>Debit</option>
+                                    <option value='2'>Credit</option>
+                                    @elseif ($acc->nature == 2)
+                                    <option value={{$acc->nature}} selected>Credit</option>
+                                    <option value='1'>Debit</option>
+                                    @else
+                                    <option hidden>Choose Nature</option>
+                                    <option value='1'>Debit</option>
+                                    <option value='2'>Credit</option>
+                                    @endif
 
+                                    fo
+                                </select>
+                            </div>
 
                             <div class="form-group">
                                 <label for="name">Balance</label>

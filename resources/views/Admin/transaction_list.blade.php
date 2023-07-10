@@ -56,6 +56,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Account</th>
+                                <th>Exp/Inc</th>
                                 <th>Type</th>
                                 <th>Date</th>
                                 <th>Amount</th>
@@ -70,6 +71,11 @@
                             <tr class="text-center">
                             <td style="font-size:15px;" class="border-0">{{$i++}}</td>
                             <td style="font-size:15px;" class="border-0">{{$data->accounting->account_code}}-{{$data->accounting->account_name}}</td>
+                            @if ($data->expense_id != null)
+                            <td style="font-size:15px;" class="border-0">Expense</td>
+                            @elseif ($data->incoming_id != null)
+                            <td style="font-size:15px;" class="border-0">Incoming</td>
+                            @endif
                             <td style="font-size:15px;" class="border-0">{{$data->type}}</td>
                             <td style="font-size:15px;" class="border-0">{{$data->date}}</td>
                             <td style="font-size:15px;" class="border-0">{{$data->amount}}</td>

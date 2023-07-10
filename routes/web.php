@@ -633,6 +633,8 @@ return view('example_profile');
 
     Route::get('incoming',[AccountController::class,'incoming'])->name('incoming');
     Route::get('expense', [AccountController::class,'expense'])->name('expense');
+    Route::get('expense_delete/{id}',[AccountController::class,'expenseDelete'])->name('expense_delete');
+    Route::get('incoming_delete/{id}',[AccountController::class,'incomingDelete'])->name('incoming_delete');
 
     Route::get('transaction',[AccountController::class,'getTransactionList'])->name('transaction');
     Route::post('transaction_filter', [AccountController::class,'ajaxTransactionFilter'])->name('transaction_filter');
