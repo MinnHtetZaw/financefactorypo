@@ -71,7 +71,7 @@
                             <tr class="text-center">
                             <td style="font-size:15px;" class="border-0">{{$i++}}</td>
                             <td style="font-size:15px;" class="border-0">{{$data->accounting->account_code}}-{{$data->accounting->account_name}}</td>
-                            @if ($data->expense_id != null)
+                            @if ($data->expense_id != null || $data->expense_id == 0 )
                             <td style="font-size:15px;" class="border-0">Expense</td>
                             @elseif ($data->incoming_id != null)
                             <td style="font-size:15px;" class="border-0">Incoming</td>
