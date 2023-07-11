@@ -66,7 +66,7 @@
                         <tbody>
                             <?php $i = 1; ?>
                             @foreach ($incoming_tran as $trans)
-                            @if($trans->type_flag == 3)
+                            @if($trans->type_flag == 4)
                             <tr>
                             <td style="font-size:15px;" class="text-center">{{$i++}}</td>
                             <td style="font-size:15px;" class="text-center">{{$trans->accounting->account_name}}-{{$trans->accounting->account_code}}</td>
@@ -89,7 +89,7 @@
                                             <?php $j=1 ?>
                                             @foreach($bank_cash_tran as $transa)
                                             @if($trans->related_transaction_id == $transa->id)
-                                            @if($transa->type_flag == 4)
+                                            @if($transa->type_flag == 3)
                                             <div class="col-md-2">
                                                 <label style="font-size:15px;" class="text-info">No</label>
                                                 <div style="font-size:15px;">{{$j++}}</div>

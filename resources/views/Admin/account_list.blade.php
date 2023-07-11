@@ -6,10 +6,40 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Account List</h3>
+                    <div class="row">
+                        <div class="col-7">
+                            <h3 class="card-title mt-3">Account List</h3>
 
-                    <button id="" class="btn btn-primary float-right" data-toggle="modal" data-target="#new_account">
-                        <i class="fa fa-plus"></i> Create Accounting</button>
+                        </div>
+                        <div class="col-auto">
+
+                            <form action="{{route('searchAccounting')}}" method="POST">
+
+                                @csrf
+                            <div class="input-group">
+                                <div class="form-outline">
+                                  <input type="search" id="form1" name="search" class="form-control" placeholder="Search"/>
+                                </div>
+                                <button type="submit" class="btn btn-primary rounded ml-2 btn-sm" style="height: 38;margin-top: 6;">
+                                  <i class="fas fa-search"></i>
+                                </button>
+                              </div>
+                            </form>
+
+                        </div>
+                        <div class="col-2">
+                            <button id="" class="btn btn-primary float-right mt-1" data-toggle="modal" data-target="#new_account">
+                                <i class="fa fa-plus"></i> Create Accounting</button>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
                     <div class="modal fade" id="new_account" tabindex="-1" role="dialog"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">

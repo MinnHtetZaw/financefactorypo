@@ -293,7 +293,7 @@ class TenderGeneralController extends Controller
     protected function store_incoming(Request $request){
 
 
-        $incoming = Incoming::create([
+        $incoming = Incoming::create([  
             'amount' => $request->amount,
             'remark' => $request->remark,
             'date' => $request->date,
@@ -301,11 +301,11 @@ class TenderGeneralController extends Controller
 
         $tran1 = Transaction::create([
             'account_id' =>$request->incoming_acc,
-            'type' => 1, // debit
+            'type' => 2, // credit
             'amount' => $request->amount,
             'remark' => $request->remark,
             'date' => $request->date,
-            'type_flag' =>3, // income debit type
+            'type_flag' =>4, // income credit type
             'currency_id' => $request->currency,
             'all_flag' =>3,
             'incoming_flag'=>1,
@@ -376,11 +376,11 @@ class TenderGeneralController extends Controller
             $bc_acc = $request->cash_acc;
 
             $acc_cash = Accounting::find($bc_acc);
-            $acc_cash->balance -= $con_amt;
+            $acc_cash->balance += $con_amt;
             $acc_cash->save();
 
             $incoming_cash = Accounting::find($request->incoming_acc);
-            $incoming_cash->balance += $request->amount;
+            $incoming_cash->balance -= $request->amount;
             $incoming_cash->save();
         }
         else if($request->cash_acc == null){
@@ -449,24 +449,24 @@ class TenderGeneralController extends Controller
             $bc_acc = $request->bank_acc;
 
             $bank = Bank::where('account_id',$bc_acc)->first();
-            $bank->balance -=  $con_amt;
+            $bank->balance +=  $con_amt;
             $bank->save();
 
             $acc_bank = Accounting::find($bc_acc);
-            $acc_bank->balance -= $con_amt;
+            $acc_bank->balance += $con_amt;
             $acc_bank->save();
 
             $incoming_bank = Accounting::find($request->incoming_acc);
-            $incoming_bank->balance += $request->amount;
+            $incoming_bank->balance -= $request->amount;
             $incoming_bank->save();
         }
         $tran = Transaction::create([
             'account_id' => $bc_acc,
-            'type' => 2,
+            'type' => 1,
             'amount' => $con_amt,
             'remark' => $request->remark,
             'date' => $request->date,
-            'type_flag' =>4,
+            'type_flag' =>3,
             'incoming_flag' => 2,
             'currency_id' => $request->currency,
             'all_flag' =>3,

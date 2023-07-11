@@ -238,26 +238,11 @@
                 </a>
               </li>
 
-              {{-- <li class="nav-item">
-                <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-circle"></i>
-                  <p>
-                    Factory Item List
-                  </p>
-                </a>
-              </li> --}}
+
             </ul>
           </li>
 
-              <!-- end -->
-              {{-- <li class="nav-item">
-                <a href="{{route('RegionalWarehouse')}}" class="nav-link">
-                  <i class="nav-icon fas fa-home"></i>
-                  <p>
-                    Regional Warehouse
-                  </p>
-                </a>
-              </li> --}}
+
               <li class="nav-item">
                 <a href="{{route('supplier_credit_list')}}" class="nav-link">
                   <i class="nav-icon fas fa-address-book"></i>
@@ -266,79 +251,8 @@
                   </p>
                 </a>
               </li>
-              {{-- <li class="nav-item">
-                <a href="{{route('show_bom')}}" class="nav-link">
-                  <i class="nav-icon fas fa-book"></i>
-                  <p>
-                  Bill Of Material(BOM)
-                  </p>
-                </a>
-              </li> --}}
-              {{-- <li class="nav-item">
-                <a href="{{route('show_material_request_list')}}" class="nav-link">
-                  <i class="nav-icon fas fa-file-invoice"></i>
-                  <p>
-                  Material Request Lists
-                  </p>
-                </a>
-              </li> --}}
-                {{-- <li class="nav-item">
-                    <a href="{{route('show_sale_order_list')}}" class="nav-link">
-                    <i class="nav-icon fas fa-edit"></i>
-                    <p>
-                    Sale Order Lists
-                    </p>
-                    </a>
-                </li> --}}
-              {{-- <li class="nav-item">
 
-                <a href="{{route('fixed_asset')}}" class="nav-link">
-                  <i class="nav-icon fas fa-circle"></i>
-                  <p>
-                    Fixed Asset List
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('expense')}}" class="nav-link">
-                  <i class="nav-icon fas fa-circle"></i>
-                  <p>
-                    Expense List
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('incoming')}}" class="nav-link">
-                  <i class="nav-icon fas fa-circle"></i>
-                  <p>
-                    Income List
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('cost_center')}}" class="nav-link">
-                  <i class="nav-icon fas fa-circle"></i>
-                  <p>
-                    Cost Center List
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('currency')}}" class="nav-link">
-                  <i class="nav-icon fas fa-circle"></i>
-                  <p>
-                    Currency List
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('bank_list')}}" class="nav-link">
-                  <i class="nav-icon fas fa-circle"></i>
-                  <p>
-                    Bank List
-                  </p>
-                </a>
-              </li> --}}
+              {{----------- Admin ----------}}
               <li class="nav-item has-treeview" >
                 <a href="#" class="nav-link" id="admin_data">
                   <i class="nav-icon fas fa-user-alt"></i>
@@ -348,7 +262,7 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-                 <li class="nav-item">
+                 <li class="nav-item ml-4">
 
                 <a href="{{route('fixed_asset')}}" class="nav-link">
                   <i class="nav-icon fas fa-circle"></i>
@@ -357,7 +271,7 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item ml-4">
                 <a href="{{route('expense')}}" class="nav-link">
                   <i class="nav-icon fas fa-circle"></i>
                   <p>
@@ -365,7 +279,7 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item ml-4">
                 <a href="{{route('incoming')}}" class="nav-link">
                   <i class="nav-icon fas fa-circle"></i>
                   <p>
@@ -373,7 +287,7 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item ml-4">
                 <a href="{{route('cost_center')}}" class="nav-link">
                   <i class="nav-icon fas fa-circle"></i>
                   <p>
@@ -381,7 +295,7 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item ml-4">
                 <a href="{{route('currency')}}" class="nav-link">
                   <i class="nav-icon fas fa-money-bill-alt"></i>
                   <p>
@@ -389,7 +303,7 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item ml-4">
                 <a href="{{route('bank_list')}}" class="nav-link">
                   <i class="nav-icon fas fa-money-check-alt"></i>
                   <p>
@@ -397,53 +311,94 @@
                   </p>
                 </a>
               </li>
+
+              <li class="nav-item ml-4">
+                <a href="{{route('transaction')}}" class="nav-link">
+                  <i class="nav-icon far fa-address-card"></i>
+                  <p>
+                   Transaction List
+                  </p>
+                </a>
+              </li>
+
               </ul>
-
-
             </li>
+    {{----------- Admin ----------}}
 
 
-          <li class="nav-item">
-            <a href="{{route('account_list')}}" class="nav-link">
-              <i class="nav-icon far fa-address-card"></i>
+    {{-- Accounting --}}
+          <li class="nav-item has-treeview" >
+            <a href="#" class="nav-link" id="trasnfer_data">
+                <i class="nav-icon far fa-address-card"></i>
               <p>
-                Account Lists
+                Accounting
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{route('accounttypeList')}}" class="nav-link">
-              <i class="nav-icon far fa-address-card"></i>
-              <p>
-                Account Type
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{route('headingList')}}" class="nav-link">
-              <i class="nav-icon far fa-address-card"></i>
-              <p>
-                Heading
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{route('subheadingList')}}" class="nav-link">
-              <i class="nav-icon far fa-address-card"></i>
-              <p>
-                Sub Heading
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{route('transaction')}}" class="nav-link">
-              <i class="nav-icon far fa-address-card"></i>
-              <p>
-               Transaction List
-              </p>
-            </a>
-          </li>
 
+            <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                    <a href="{{route('accounttypeList')}}" class="nav-link">
+                      <i class="nav-icon far fa-address-card ml-4"></i>
+                      <p>
+                        Account Type
+                      </p>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a href="{{route('headingList')}}" class="nav-link">
+                      <i class="nav-icon far fa-address-card ml-4"></i>
+                      <p>
+                        Heading
+                      </p>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a href="{{route('subheadingList')}}" class="nav-link">
+                      <i class="nav-icon far fa-address-card ml-4"></i>
+                      <p>
+                        Sub Heading
+                      </p>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a href="{{route('account_list')}}" class="nav-link">
+                      <i class="nav-icon far fa-address-card ml-4"></i>
+                      <p>
+                        Account Lists
+                      </p>
+                    </a>
+                  </li>
+
+          </ul>
+        </li>
+{{--                  --}}
+
+{{-- Transfer --}}
+          <li class="nav-item has-treeview" >
+            <a href="#" class="nav-link" id="trasnfer_data">
+              <i class="nav-icon fas fa-user-alt"></i>
+              <p>
+                Transfer
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+             <li class="nav-item ml-4">
+
+            <a href="{{route('transfer_list')}}" class="nav-link">
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+                Transfer List
+              </p>
+            </a>
+          </li>
+          </ul>
+        </li>
           <li class="nav-item has-treeview" >
             <a href="#" class="nav-link" id="master_data">
               <i class="nav-icon fas fa-tachometer-alt"></i>

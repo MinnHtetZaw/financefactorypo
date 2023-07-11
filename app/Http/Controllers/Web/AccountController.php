@@ -159,6 +159,18 @@ class AccountController extends Controller
 
         return back();
    }
+
+   public function searchAccounting(Request $request)
+   {
+        $account =Accounting::where('account_name','like','%'.$request->search.'%')->get();
+        $subheadings = SubHeading::all();
+        $headings= HeadingType::all();
+        $account_type = AccountingType::all();
+        $currency  = Currency::all();
+
+        return view('Admin.account_list',compact('currency','account','account_type','subheadings','headings'));
+   }
+
    public function update_accounting(Request $request,$id){
 
     $update = Accounting::find($id);
@@ -279,5 +291,17 @@ class AccountController extends Controller
         return response()->json([
             'date_filter' => $date_filter
        ]);
+    }
+
+    public function TransferList()
+    {
+        $cash_accounts = Accounting::where('subheading_id',7)->get();
+        $bank_accounts = Accounting::where('subheading_id',19)->get();
+
+        return view('Admin.transfer_list',compact('cash_accounts','bank_accounts')); 
+    }
+    public function bankTransfer(Request $request)
+    {
+
     }
 }

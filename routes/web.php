@@ -626,6 +626,7 @@ return view('example_profile');
 
     Route::post('store_accounting',[AccountController::class,'storeAccounting'])->name('store_accounting');
     Route::get('AccountList', [AccountController::class,'ShowAccountList'])->name('account_list');
+    Route::post('searchAccounting',[AccountController::class,'searchAccounting'])->name('searchAccounting');
     Route::post('update_accounting/{id}',[AccountController::class,'update_accounting'])->name('update_accounting');
 
     Route::get('bank_list', [AccountController::class,'bank_list'])->name('bank_list');
@@ -638,3 +639,4 @@ return view('example_profile');
 
     Route::get('transaction',[AccountController::class,'getTransactionList'])->name('transaction');
     Route::post('transaction_filter', [AccountController::class,'ajaxTransactionFilter'])->name('transaction_filter');
+    Route::get('tranfer_list',[AccountController::class,'TransferList'])->name('transfer_list');
