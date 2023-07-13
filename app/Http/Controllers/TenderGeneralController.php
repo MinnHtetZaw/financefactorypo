@@ -293,7 +293,7 @@ class TenderGeneralController extends Controller
     protected function store_incoming(Request $request){
 
 
-        $incoming = Incoming::create([  
+        $incoming = Incoming::create([
             'amount' => $request->amount,
             'remark' => $request->remark,
             'date' => $request->date,
@@ -1030,9 +1030,9 @@ class TenderGeneralController extends Controller
     }
 
     public function update_currency(Request $request,$id){
-        // dd($request->rate);
+       
         $curr = Currency::find($id);
-        // dd($curr->exchange_rate);
+
         $curr->exchange_rate = $request->rate;
         $curr->save();
         alert()->success('Updated Exchange Rate Successfully!!!');

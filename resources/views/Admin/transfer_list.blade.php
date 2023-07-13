@@ -54,7 +54,7 @@
 
             <div class="table-responsive text-black" id="slimtest2">
 
-                <table class="table table-hover" id="filter_date">
+                <table class="table" id="filter_date" style="border-collapse: collapse">
 
 
                             <thead class="bg-info text-white">
@@ -69,7 +69,68 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse ($transfers as $key=>$transfer )
+                            <tr>
+                                <td class="text-center">{{++$key}}</td>
+                                <td class="text-center">{{ $transfer->fromAccount->account_name }}-{{ $transfer->fromAccount->account_code}}-{{ $transfer->fromAccount->currency->name }}</td>
+                                <td class="text-center">{{ $transfer->toAccount->account_name }}-{{ $transfer->toAccount->account_code}}-{{ $transfer->toAccount->currency->name }}</td>
+                                <td class="text-center">{{ $transfer->transfer_date }}</td>
+                                <td class="text-center">{{ $transfer->amount }}</td>
+                                <td class="text-center">{{ $transfer->remark }}</td>
+                                <td class="text-center">
+                                    <button class="btn btn-primary btn-sm"  data-toggle="collapse" data-target="#related_transfer{{$transfer->id}}" >Related</button>
+                                </td>
 
+                                <tr>
+                                    <td colspan="9" >
+                                        <div class="collapse" id="related_transfer{{$transfer->id}}" >
+                                            <table class="table table-borderless col-6 offset-3">
+                                                <thead>
+                                                    <tr class="text-center fst-italic">
+                                                        <th>Account</th>
+                                                        <th>Type</th>
+                                                        <th>Account's Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="text-center">
+
+
+                                                        @forelse ($transfer->transactions as $transaction)
+                                                        @if ($transaction->transfer_id == $transfer->id)
+
+                                                        <tr>
+
+                                                        <td>{{$transaction->account->account_name}}</td>
+                                                        <td>{{$transaction->transaction_type}}</td>
+                                                        <td>{{$transaction->current_amount}}</td>
+                                                      </tr>
+
+                                                        @endif
+                                                        @empty
+
+                                                    <tr >
+                                                        <td colspan="9">
+                                                            <p class="text-danger text-center my-3">There is no Transfer Data.</p>
+                                                        </td>
+
+                                                    </tr>
+
+
+                                                        @endforelse
+
+                                                    </tbody>
+
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tr>
+
+
+                            @empty
+                                 <p class="text-danger">There is no Transfer Data.</p>
+                            @endforelse
                         </tbody>
 
                 </table>
@@ -85,7 +146,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Expense</h4>
+                        <h4 class="modal-title">Transfer</h4>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
@@ -93,7 +154,7 @@
 
                     <div class="modal-body">
 
-                        <form action="{{route('store_expense')}}" method="POST">
+                        <form action="{{route('store_transfer')}}" method="POST">
 
                             @csrf
                             <div class="row">
@@ -218,15 +279,12 @@
                                         </div>
                                     </div>
 
-
                                     <div class="form-group">
                                         <label class="control-label">Date</label>
 
                                         <input type="date" class="form-control"  name="date">
 
                                     </div>
-
-
 
                                     <div class="form-group">
                                         <label class="control-label">Remark</label>

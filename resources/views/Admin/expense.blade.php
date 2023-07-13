@@ -653,7 +653,7 @@ function show_project(){
                             <td style="font-size:15px;" class="text-center">${v.date}</td>
                             <td style="font-size:15px;" class="text-center">${v.amount}</td>
                             <td style="font-size:15px;" class="text-center">${v.remark}</td>
-                            <td class="text-center"><a class="btn btn-primary btn-sm " data-toggle="collapse" href="#related${v.id}" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Related</a></td>
+                            <td class="text-center"><a class="btn btn-primary btn-sm "   href="#related${v.id}" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Related</a></td>
                     </tr>
                     <tr>
                     <td></td>
@@ -694,26 +694,6 @@ function show_project(){
                                                 <div style="font-size:15px;">${b.amount}</div>
 
                                             </div>
-                    `;
-                    if(b.project_id == null){
-                        html += `
-                        <div class="col-md-2">
-                            <label style="font-size:15px;" class="text-info">Projected Related</label>
-                            <div style="font-size:15px;">No</div>
-
-                        </div>
-                        `;
-                    }
-                    else if(b.project_id != null){
-                        html += `
-                        <div class="col-md-2">
-                            <label style="font-size:15px;" class="text-info">Projected Related</label>
-                            <div style="font-size:15px;">Yes</div>
-
-                        </div>
-                        `;
-                    }
-                    html += `
                             </div>
                                     </div>
 

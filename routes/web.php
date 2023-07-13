@@ -640,3 +640,4 @@ return view('example_profile');
     Route::get('transaction',[AccountController::class,'getTransactionList'])->name('transaction');
     Route::post('transaction_filter', [AccountController::class,'ajaxTransactionFilter'])->name('transaction_filter');
     Route::get('tranfer_list',[AccountController::class,'TransferList'])->name('transfer_list');
+    Route::post('store_transfer',[AccountController::class,'storeTransfer'])->name('store_transfer');
