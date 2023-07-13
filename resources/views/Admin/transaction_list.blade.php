@@ -79,7 +79,7 @@
                             <td style="font-size:15px;" class="border-0">{{$data->type}}</td>
                             <td style="font-size:15px;" class="border-0">{{$data->date}}</td>
                             <td style="font-size:15px;" class="border-0">{{$data->amount}}</td>
-                            <td style="font-size:15px;" class="border-0">{{$data->remark}}</td>
+                            <td style="font-size:15px; width:50px" class="border-0">{{$data->remark}}</td>
 
                             </tr>
                             @endforeach
