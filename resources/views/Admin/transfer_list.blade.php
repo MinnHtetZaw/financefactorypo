@@ -129,7 +129,12 @@
 
 
                             @empty
-                                 <p class="text-danger">There is no Transfer Data.</p>
+                            <tr>
+                                <td colspan="9">
+                                    <p class="text-danger text-center">There is no Transfer Data.</p>
+
+                                </td>
+                            </tr>
                             @endforelse
                         </tbody>
 
