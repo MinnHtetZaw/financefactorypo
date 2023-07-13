@@ -69,16 +69,16 @@
                             @foreach ($transaction as $data)
 
                             <tr class="text-center">
-                            <td style="font-size:15px;" class="border-0">{{$i++}}</td>
-                            <td style="font-size:15px;" class="border-0">{{$data->accounting->account_code}}-{{$data->accounting->account_name}}</td>
+                            <td style="font-size:15px; width:50px" class="border-0">{{$i++}}</td>
+                            <td style="font-size:15px; width:50px" class="border-0">{{$data->accounting->account_code}}-{{$data->accounting->account_name}}</td>
                             @if ($data->expense_id != null || $data->expense_id == 0 )
-                            <td style="font-size:15px;" class="border-0">Expense</td>
+                            <td style="font-size:15px; width:50px" class="border-0">Expense</td>
                             @elseif ($data->incoming_id != null)
-                            <td style="font-size:15px;" class="border-0">Incoming</td>
+                            <td style="font-size:15px; width:50px" class="border-0">Incoming</td>
                             @endif
-                            <td style="font-size:15px;" class="border-0">{{$data->type}}</td>
-                            <td style="font-size:15px;" class="border-0">{{$data->date}}</td>
-                            <td style="font-size:15px;" class="border-0">{{$data->amount}}</td>
+                            <td style="font-size:15px; width:50px" class="border-0">{{$data->type}}</td>
+                            <td style="font-size:15px; width:50px" class="border-0">{{$data->date}}</td>
+                            <td style="font-size:15px; width:50px" class="border-0">{{$data->amount}}</td>
                             <td style="font-size:15px; width:50px" class="border-0">{{$data->remark}}</td>
 
                             </tr>
