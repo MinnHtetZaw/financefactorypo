@@ -1,0 +1,137 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Currency;
+use App\Accounting;
+use App\SubHeading;
+use App\HeadingType;
+use App\JournalEntry;
+use App\AccountingType;
+use Illuminate\Http\Request;
+
+class JournalEntryController extends Controller
+{
+    //
+
+    public function getEntryList()
+    {
+        $account = Accounting::all();
+        $subheadings = SubHeading::all();
+        $headings= HeadingType::all();
+
+        $entries = JournalEntry::with('relatedEntry','relatedEntry.toAccount')->whereNull('related_entry_id')->get();
+        // dd($entries->relatedEntry->toArray());
+        return view("Admin.JournalEntry.journalentrylist",compact('entries','account','subheadings','headings'));
+    }
+
+    public function storeEntry(Request $request)
+    {
+
+        $fromAccount = Accounting::find($request->from_account_id);
+        $toAccount = Accounting::find($request->to_account_id);
+
+        $con_amt = $this->convertRate($toAccount,$fromAccount,$request->amount);
+
+        $fromAccount->balance -=$request->amount;
+        $fromAccount->save();
+
+        $toAccount->balance +=$con_amt;
+        $toAccount->save();
+
+        $entry = JournalEntry::create([
+            'from_account_id'=>$request->from_account_id,
+            'type'=> $request->from_type,
+            'amount'=>$request->amount,
+            'entry_date'=>$request->date,
+            'remark'=>$request->remark
+        ]);
+
+            JournalEntry::create([
+                'related_entry_id'=>$entry->id,
+                'to_account_id'=>$request->to_account_id,
+                'type'=>$request->to_type,
+                'entry_date'=>$request->date,
+                'remark'=>$request->remark,
+
+            ]);
+            alert()->success('Journal Entry Succeed');
+            return back();
+    }
+
+    public function editEntry($id)
+    {
+        $entry=JournalEntry::find($id);
+
+        return view('Admin.JournalEntry.journalentryupdate',compact('entry'));
+    }
+
+
+    protected function convertRate($toAccount,$fromAccount,$amount)
+    {
+        $from = $fromAccount->currency_id;
+        $to = $toAccount->currency_id;
+
+        $usd_rate = Currency::find(5);
+        $euro_rate = Currency::find(6);
+        $sgp_rate = Currency::find(9);
+        $jpn_rate = Currency::find(10);
+        $chn_rate = Currency::find(11);
+        $idn_rate = Currency::find(12);
+        $mls_rate = Currency::find(13);
+        $thai_rate = Currency::find(14);
+
+        if($from == 4 && $to == 5){
+            $con_amt = $amount / $usd_rate->exchange_rate;
+        }
+        else if($from == 4 && $to == 6){
+            $con_amt = $amount / $euro_rate->exchange_rate;
+        }
+        else if($from == 4 && $to == 9){
+            $con_amt = $amount / $sgp_rate->exchange_rate;
+        }
+        else if($from == 4 && $to == 10){
+            $con_amt = $amount / $jpn_rate->exchange_rate;
+        }
+        else if($from == 4 && $to == 11){
+            $con_amt = $amount / $chn_rate->exchange_rate;
+        }
+        else if($from == 4 && $to == 12){
+            $con_amt = $amount / $idn_rate->exchange_rate;
+        }
+        else if($from == 4 && $to == 13){
+            $con_amt = $amount / $mls_rate->exchange_rate;
+        }
+        else if($from == 4 && $to == 14){
+            $con_amt = $amount / $thai_rate->exchange_rate;
+        }
+        else if($from == 5 && $to == 4){
+            $con_amt = $amount * $usd_rate->exchange_rate;
+        }
+        else if($from == 6 && $to == 4){
+            $con_amt = $amount * $euro_rate->exchange_rate;
+        }
+        else if($from == 9 && $to == 4){
+            $con_amt = $amount * $sgp_rate->exchange_rate;
+        }
+        else if($from == 10 && $to == 4){
+            $con_amt = $amount * $jpn_rate->exchange_rate;
+        }
+        else if($from == 11 && $to == 4){
+            $con_amt = $amount * $chn_rate->exchange_rate;
+        }
+        else if($from == 12 && $to == 4){
+            $con_amt = $amount * $idn_rate->exchange_rate;
+        }
+        else if($from == 13 && $to == 4){
+            $con_amt = $amount * $mls_rate->exchange_rate;
+        }
+        else if($from == 14 && $to == 4){
+            $con_amt = $amount * $thai_rate->exchange_rate;
+        }
+        else{
+            $con_amt = $amount;
+        }
+        return $con_amt;
+    }
+}

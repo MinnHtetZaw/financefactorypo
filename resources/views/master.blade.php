@@ -321,6 +321,15 @@
                 </a>
               </li>
 
+              <li class="nav-item ml-4">
+                <a href="{{route('journalEntry')}}" class="nav-link">
+                  <i class="nav-icon far fa-address-card"></i>
+                  <p>
+                    Journal Entry
+                  </p>
+                </a>
+              </li>
+
               </ul>
             </li>
     {{----------- Admin ----------}}

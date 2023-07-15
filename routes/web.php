@@ -3,6 +3,7 @@
 use App\Doctor;
 use App\Events\DoctorChange;
 use App\Events\TestingEvent;
+use App\Http\Controllers\JournalEntryController;
 use PhpParser\Node\Expr\FuncCall;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\AccountController;
@@ -623,6 +624,7 @@ return view('example_profile');
 
     Route::post('heading_search',[AccountController::class,'searchHeading']);
     Route::post('subheading_search',[AccountController::class,'searchSubHeading']);
+    Route::post('account_search',[AccountController::class,'searchAccount']);
 
     Route::post('store_accounting',[AccountController::class,'storeAccounting'])->name('store_accounting');
     Route::get('AccountList', [AccountController::class,'ShowAccountList'])->name('account_list');
@@ -641,3 +643,8 @@ return view('example_profile');
     Route::post('transaction_filter', [AccountController::class,'ajaxTransactionFilter'])->name('transaction_filter');
     Route::get('tranfer_list',[AccountController::class,'TransferList'])->name('transfer_list');
     Route::post('store_transfer',[AccountController::class,'storeTransfer'])->name('store_transfer');
+
+    // Journal Entry
+    Route::get('journalEntry',[JournalEntryController::class,'getEntryList'])->name('journalEntry');
+    Route::post('store_journal_entry',[JournalEntryController::class,'storeEntry'])->name('store_journal_entry');
+    Route::get('journal_entry_edit',[JournalEntryController::class,'editEntry'])->name('journal_entry_edit');

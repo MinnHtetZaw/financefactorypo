@@ -136,6 +136,13 @@ class AccountController extends Controller
         return response()->json($subheading);
     }
 
+    public function searchAccount(Request $request)
+    {
+        $accounts = Accounting::where('subheading_id',$request->subheading_id)->get();
+
+        return response()->json($accounts);
+    }
+
     public function ShowAccountList(Request $request) {
 
             $account = Accounting::all();
