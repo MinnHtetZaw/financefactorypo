@@ -88,14 +88,140 @@ class JournalEntryController extends Controller
         $subheadings = SubHeading::all();
         $headings= HeadingType::all();
 
-        
+
         return view('Admin.JournalEntry.journalentryupdate',compact('entry','accounts','subheadings','headings'));
     }
 
-    public function updateEntry()
+    public function updateEntry(Request $request,JournalEntry $entry)
     {
 
+        $fromAccount = Accounting::find($request->from_account_id);
+        $toAccount = Accounting::find($request->to_account_id);
+
+        $entryFrom = Accounting::find($entry->from_account_id);
+        $entryTo = Accounting::find($entry->relatedEntry->to_account_id);
+
+        $return_con_amt = $this->convertRate($entryTo,$entryFrom,$entry->amount);
+        $current_con_amt =$this->convertRate($toAccount,$fromAccount,$request->amount);
+
+        //From Account Calculation
+
+        if($request->from_account_id == $entry->from_account_id)
+        {
+            if($request->from_type != $entry->getRawOriginal('type'))
+            {
+                if($entry->getRawOriginal('type') ==  $entryFrom->nature)
+                {
+                     $entryFrom->balance -=$entry->amount;
+                     $entryFrom->balance -=$request->amount;
+                     $entryFrom->save();
+                }
+                else
+                {
+                    $entryFrom->balance +=$entry->amount;
+                    $entryFrom->balance +=$request->amount;
+                    $entryFrom->save();
+                }
+
+            }
+        }
+        else
+        {
+            // Return back to Original State
+            if($entry->getRawOriginal('type') ==  $entryFrom->nature)
+            {
+                 $entryFrom->balance -=$entry->amount;
+                 $entryFrom->save();
+            }
+            else
+            {
+                $entryFrom->balance +=$entry->amount;
+                $entryFrom->save();
+            }
+
+            // Current New State
+            if($fromAccount->nature == $request->from_type)
+            {
+                $fromAccount->balance +=$request->amount;
+                $fromAccount ->save();
+            }
+            else
+            {
+                $fromAccount->balance -=$request->amount;
+                $fromAccount->save();
+            }
+        }
+
+        //To Account Calculation
+
+        if($request->to_account_id == $entry->relatedEntry->to_account_id)
+        {
+            if($request->to_type != $entry->relatedEntry->getRawOriginal('type'))
+            {
+                if($entry->relatedEntry->getRawOriginal('type') ==  $entryTo->nature)
+                {
+                     $entryTo->balance -=$return_con_amt; // Default State before entry
+                     $entryTo->balance -=$current_con_amt; // Current entry State
+                     $entryTo->save();
+                }
+                else
+                {
+
+                    $entryTo->balance += $return_con_amt;
+                    $entryTo->balance += $current_con_amt;
+                    $entryTo->save();
+                }
+
+            }
+        }
+        else
+        {
+             // Return back to Original State
+             if($entry->relatedEntry->getRawOriginal('type') ==  $entryTo->nature)
+             {
+                  $entryTo->balance -=$return_con_amt;
+                  $entryTo->save();
+             }
+             else
+             {
+                 $entryTo->balance +=$return_con_amt;
+                 $entryTo->save();
+             }
+
+            if($toAccount->nature == $request->to_type)
+            {
+                $toAccount->balance += $current_con_amt;
+                $toAccount->save();
+            }
+            else
+            {
+                $toAccount->balance -= $current_con_amt;
+                $toAccount->save();
+            }
+        }
+
+        $entry->from_account_id = $request->from_account_id;
+        $entry->type  = $request->from_type;
+        $entry->amount = $request->amount;
+        $entry->entry_date = $request->date;
+        $entry->remark = $request->remark;
+        $entry->save();
+
+
+            $data=JournalEntry::where('related_entry_id',$entry->id)->first();
+            $data->to_account_id = $request->to_account_id;
+            $data->type = $request->to_type;
+            $data->remark = $request->remark;
+            $data->entry_date = $request->date;
+            $data->save();
+
+
+        alert()->success('Journal Entry Update Succeed!');
+        return redirect()->route('journalEntry');
+
     }
+
+
 
     protected function convertRate($toAccount,$fromAccount,$amount)
     {

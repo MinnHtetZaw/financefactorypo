@@ -648,3 +648,4 @@ return view('example_profile');
     Route::get('journalEntry',[JournalEntryController::class,'getEntryList'])->name('journalEntry');
     Route::post('store_journal_entry',[JournalEntryController::class,'storeEntry'])->name('store_journal_entry');
     Route::get('journal_entry_edit/{id}',[JournalEntryController::class,'editEntry'])->name('journal_entry_edit');
+	Route::post('journal_entry_update/{entry}',[JournalEntryController::class,'updateEntry'])->name('journal_entry_update');

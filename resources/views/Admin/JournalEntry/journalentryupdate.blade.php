@@ -7,7 +7,7 @@
 
                 <h4 class="modal-title">Journal Entry Update</h4>
 
-            <form action="{{route('store_journal_entry')}}" method="POST">
+            <form action="{{route('journal_entry_update',$entry->id)}}" method="POST">
 
                 @csrf
                      <div class="card mt-3">
@@ -23,12 +23,12 @@
                                     <label for="name">Type</label>
                                     <select class="custom-select border-info" name="from_type">
 
-                                        @if ($entry->type == "Debit")
-                                        <option value="1" selected>{{$entry->type}}</option>
+                                        <option value={{$entry->getRawOriginal('type')}} selected>{{$entry->type}}</option>
+
+                                        @if ($entry->getRawOriginal('type') == 1)
                                         <option value="2">Credit</option>
                                         @else
                                         <option value="1">Debit</option>
-                                        <option value="2" selected>{{$entry->type}}</option>
                                         @endif
 
 
@@ -100,12 +100,12 @@
                                     <label for="name">Type</label>
                                     <select class="custom-select border-info" name="to_type">
 
-                                        @if ($entry->relatedEntry->type == "Debit")
-                                        <option value="1" selected>{{$entry->relatedEntry->type}}</option>
+                                        <option value={{$entry->relatedEntry->getRawOriginal('type')}} selected>{{$entry->relatedEntry->type}}</option>
+
+                                        @if ($entry->relatedEntry->getRawOriginal('type') == 1)
                                         <option value="2">Credit</option>
                                         @else
                                         <option value="1">Debit</option>
-                                        <option value="2" selected>{{$entry->relatedEntry->type}}</option>
                                         @endif
 
 

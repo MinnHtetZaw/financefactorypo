@@ -77,7 +77,7 @@
                                         <i class="fa fa-caret-down" aria-hidden="true"></i>
                                     </button>
                                     {{-- {{route('journal_entry_edit',$data->id)}} --}}
-                                    <a href="#">
+                                    <a href="{{route('journal_entry_edit',$data->id)}}">
                                         <button class="btn btn-warning btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 
                                         </button>
