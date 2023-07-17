@@ -76,7 +76,8 @@
                                     <button class="btn btn-primary btn-sm"  data-toggle="collapse" data-target="#related_entry{{$data->id}}" >
                                         <i class="fa fa-caret-down" aria-hidden="true"></i>
                                     </button>
-                                    <a href="{{route('')}}">
+                                    {{-- {{route('journal_entry_edit',$data->id)}} --}}
+                                    <a href="#">
                                         <button class="btn btn-warning btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 
                                         </button>

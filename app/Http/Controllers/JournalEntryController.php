@@ -33,11 +33,33 @@ class JournalEntryController extends Controller
 
         $con_amt = $this->convertRate($toAccount,$fromAccount,$request->amount);
 
-        $fromAccount->balance -=$request->amount;
-        $fromAccount->save();
+        //  same type => plus
+        // different => minus
 
-        $toAccount->balance +=$con_amt;
-        $toAccount->save();
+        // fromACcount
+        if($fromAccount->nature == $request->from_type)
+        {
+            $fromAccount->balance +=$request->amount;
+            $fromAccount->save();
+        }
+        else
+        {
+            $fromAccount->balance -=$request->amount;
+            $fromAccount->save();
+        }
+
+        // toAccount
+        if($toAccount->nature == $request->to_type)
+        {
+            $toAccount->balance +=$con_amt;
+            $toAccount->save();
+        }
+        else
+        {
+            $toAccount->balance -=$con_amt;
+            $toAccount->save();
+        }
+
 
         $entry = JournalEntry::create([
             'from_account_id'=>$request->from_account_id,
@@ -61,11 +83,19 @@ class JournalEntryController extends Controller
 
     public function editEntry($id)
     {
-        $entry=JournalEntry::find($id);
+        $entry=JournalEntry::with('relatedEntry','toAccount','fromAccount','fromAccount.subheading.heading','relatedEntry.toAccount.subheading.heading')->find($id);
+        $accounts = Accounting::all();
+        $subheadings = SubHeading::all();
+        $headings= HeadingType::all();
 
-        return view('Admin.JournalEntry.journalentryupdate',compact('entry'));
+        
+        return view('Admin.JournalEntry.journalentryupdate',compact('entry','accounts','subheadings','headings'));
     }
 
+    public function updateEntry()
+    {
+
+    }
 
     protected function convertRate($toAccount,$fromAccount,$amount)
     {

@@ -507,7 +507,7 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2017-2020 <a href="http://www.kwintechnologies.com">K-win Technology</a>.</strong>
+    <strong>Copyright &copy; 2017-2020 <a href="#">K-win Technology</a>.</strong>
     All rights reserved.
   </footer>
 
